@@ -14,7 +14,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <header>
-          <NavigationBar username={this.state.username}/>
+          <NavigationBar username={this.state.username} />
         </header>
       </div>
     );
