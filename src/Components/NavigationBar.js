@@ -17,8 +17,8 @@ export default class NavigationBar extends Component {
             return (
                 <div className="links">
                     <a href="#" onClick={this.props.clickHome}>Home</a>
-                    <a href="#" >Login</a>
-                    <a href="#" >Register</a>
+                    <a href="#" onClick={this.props.clickLogin}>Login</a>
+                    <a href="#" onClick={this.props.clickRegister}>Register</a>
                 </div>
             );
         }

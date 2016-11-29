@@ -5,6 +5,8 @@ import NavigationBar from './Components/NavigationBar';
 
 // Import views
 import HomeView from './Views/HomeView';
+import LoginView from './Views/LoginView';
+import RegisterView from './Views/RegisterView';
 
 export default class App extends Component {
   constructor(props){
@@ -14,6 +16,7 @@ export default class App extends Component {
         userId: sessionStorage.getItem("userId")
     }
   }
+
   render() {
     return (
       <div className="App">
@@ -21,6 +24,8 @@ export default class App extends Component {
               <NavigationBar
                   username={this.state.username}
                   clickHome={this.showHomeView.bind(this)}
+                  clickLogin={this.showLoginView.bind(this)}
+                  clickRegister={this.showRegisterView.bind(this)}
               />
           </header>
           <div id="main"></div>
@@ -36,6 +41,14 @@ export default class App extends Component {
 
   showHomeView(){
       this.showView(<HomeView/>);
+  }
+
+  showLoginView(){
+      this.showView(<LoginView/>);
+  }
+
+  showRegisterView(){
+      this.showView(<RegisterView/>);
   }
 }
 
