@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import './App.css';
 import NavigationBar from './Components/NavigationBar';
+
+// Import views
+import HomeView from './Views/HomeView';
 
 export default class App extends Component {
   constructor(props){
@@ -13,11 +17,25 @@ export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <header>
-          <NavigationBar username={this.state.username} />
-        </header>
+          <header>
+              <NavigationBar
+                  username={this.state.username}
+                  clickHome={this.showHomeView.bind(this)}
+              />
+          </header>
+          <div id="main"></div>
       </div>
     );
+  }
+
+  showView(component){
+      ReactDOM.render(
+          component,
+          document.getElementById("main"));
+  }
+
+  showHomeView(){
+      this.showView(<HomeView/>);
   }
 }
 
