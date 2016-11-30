@@ -27,7 +27,8 @@ export default class Login extends Component {
         )
     }
 
-    submitForm(){
+    submitForm(event){
+        event.preventDefault();
         this.props.submit(this.usernameField.value, this.usernamePass.value)
     }
 }
