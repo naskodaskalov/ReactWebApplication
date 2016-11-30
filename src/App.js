@@ -9,46 +9,50 @@ import LoginView from './Views/LoginView';
 import RegisterView from './Views/RegisterView';
 
 export default class App extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-        username: sessionStorage.getItem("username"),
-        userId: sessionStorage.getItem("userId")
+    constructor(props){
+        super(props);
+        this.state = {
+            username: sessionStorage.getItem("username"),
+            userId: sessionStorage.getItem("userId")
+        }
     }
-  }
 
-  render() {
-    return (
-      <div className="App">
-          <header>
-              <NavigationBar
-                  username={this.state.username}
-                  clickHome={this.showHomeView.bind(this)}
-                  clickLogin={this.showLoginView.bind(this)}
-                  clickRegister={this.showRegisterView.bind(this)}
-              />
-          </header>
-          <div id="main"></div>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div className="App">
+                <header>
+                    <NavigationBar
+                        username={this.state.username}
+                        clickHome={this.showHomeView.bind(this)}
+                        clickLogin={this.showLoginView.bind(this)}
+                        clickRegister={this.showRegisterView.bind(this)}
+                    />
+                </header>
+                <div id="main"></div>
+            </div>
+        );
+    }
 
-  showView(component){
-      ReactDOM.render(
-          component,
-          document.getElementById("main"));
-  }
+    showView(component){
+        ReactDOM.render(
+            component,
+            document.getElementById("main"));
+    }
 
-  showHomeView(){
-      this.showView(<HomeView/>);
-  }
+    showHomeView(){
+        this.showView(<HomeView/>);
+    }
 
-  showLoginView(){
-      this.showView(<LoginView/>);
-  }
+    showLoginView(){
+        this.showView(<LoginView submit={this.login}/>);
+    }
 
-  showRegisterView(){
-      this.showView(<RegisterView/>);
-  }
+    login(username, password) {
+        // TODO: make ajax request!
+    }
+
+    showRegisterView(){
+        this.showView(<RegisterView/>);
+    }
 }
 

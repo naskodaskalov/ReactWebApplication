@@ -8,8 +8,8 @@ export default class NavigationBar extends Component {
             return (
                 <div className="links">
                     <a href="#" onClick={this.props.clickHome}>Home</a>
-                    <a href="#" >Posts</a>
-                    <a href="#" >Create Post</a>
+                    <a href="#" >Ads</a>
+                    <a href="#" >Create Ad</a>
                     <a href="#" >Logout</a>
                 </div>
             );
