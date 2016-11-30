@@ -21,7 +21,20 @@ let DbRequester = (function () {
         })
     }
 
-    return {loginUser};
+    function logoutUser() {
+        return $.ajax({
+            method: "POST",
+            url: baseUrl + "user/" + appId + "/_logout",
+            headers: getKinveyAuthSession()
+        });
+
+        function getKinveyAuthSession() {
+            return {"Authorization": "Kinvey " + sessionStorage.getItem("authToken")}
+        }
+    }
+
+    return {loginUser,
+            logoutUser};
 })();
 
 export default DbRequester

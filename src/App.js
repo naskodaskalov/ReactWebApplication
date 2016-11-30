@@ -65,6 +65,9 @@ export default class App extends Component {
                         clickHome={this.showHomeView.bind(this)}
                         clickLogin={this.showLoginView.bind(this)}
                         clickRegister={this.showRegisterView.bind(this)}
+                        clickAds={this.showAdsView.bind(this)}
+                        clickAdCreate={this.showCreateAdView.bind(this)}
+                        clickLogout={this.logout.bind(this)}
                     />
                 </header>
                 <div id="loadingBox">Loading...</div>
@@ -89,14 +92,52 @@ export default class App extends Component {
         this.showView(<LoginView submit={this.login.bind(this)}/>);
     }
 
+    showAdsView(){
+
+    }
+
+    showCreateAdView(){
+
+    }
+
     login(username, password) {
-        //alert(username + " " + password);
         DbRequester.loginUser(username, password)
             .then(successLogin.bind(this));
 
-        function successLogin() {
+        // clear input fields after login button click
+        $('#usernameLogin').val("");
+        $('#passwordLogin').val("");
+
+        function successLogin(userData) {
+            this.saveAuthToken(userData);
             this.showInfo("Login successful!");
         }
+    }
+
+    logout(){
+        DbRequester.logoutUser(sessionStorage.getItem("authtoken"))
+            .then(logoutSuccess.bind(this));
+
+        function logoutSuccess() {
+            this.setState({
+                username: null,
+                userId: null
+            });
+            this.showHomeView();
+            sessionStorage.clear();
+            this.showInfo("Logout successful");
+        }
+    }
+
+    saveAuthToken(userData){
+        sessionStorage.setItem("authToken", userData._kmd.authtoken);
+        sessionStorage.setItem("username", userData.username);
+        sessionStorage.setItem("userId", userData._id);
+
+        this.setState({
+            username: userData.username,
+            userId: userData._id
+        })
     }
 
     showRegisterView(){

@@ -12,12 +12,12 @@ export default class Login extends Component {
                         <legend>Login form</legend>
                         <label>
                             <div>Username:</div>
-                            <input type="text"
+                            <input type="text" id="usernameLogin"
                                    ref={x => this.usernameField = x} />
                         </label>
                         <label>
                             <div> Password:</div>
-                            <input type="password"
+                            <input type="password" id="passwordLogin"
                                    ref={x => this.usernamePass = x} />
                         </label><br/>
                         <input type="submit" value="Login"/>
