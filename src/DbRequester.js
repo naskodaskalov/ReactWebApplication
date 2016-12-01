@@ -21,6 +21,20 @@ let DbRequester = (function () {
         })
     }
 
+    function registerUser(username, email, password) {
+        return $.ajax({
+            method: "POST",
+            url: baseUrl + "user/" + appId,
+            headers: dbAuthHeaders,
+            contentType: "application/json",
+            data: JSON.stringify({
+                username: username,
+                email: email,
+                password: password
+            })
+        })
+    }
+
     function logoutUser() {
         return $.ajax({
             method: "POST",
@@ -34,7 +48,8 @@ let DbRequester = (function () {
     }
 
     return {loginUser,
-            logoutUser};
+            logoutUser,
+            registerUser};
 })();
 
 export default DbRequester

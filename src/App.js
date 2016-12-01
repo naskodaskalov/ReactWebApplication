@@ -84,6 +84,7 @@ export default class App extends Component {
             document.getElementById("main"));
     }
 
+    // Show Views:
     showHomeView(){
         this.showView(<HomeView/>);
     }
@@ -92,12 +93,16 @@ export default class App extends Component {
         this.showView(<LoginView submit={this.login.bind(this)}/>);
     }
 
-    showAdsView(){
+    showRegisterView(){
+        this.showView(<RegisterView submit={this.register.bind(this)}/>);
+    }
 
+    showAdsView(){
+        // TODO
     }
 
     showCreateAdView(){
-
+        // TODO
     }
 
     login(username, password) {
@@ -105,13 +110,55 @@ export default class App extends Component {
             .then(successLogin.bind(this));
 
         // clear input fields after login button click
-        $('#usernameLogin').val("");
-        $('#passwordLogin').val("");
+        this.cleanFieldsAfterSubmit(['usernameLogin', 'passwordLogin']);
 
         function successLogin(userData) {
+            this.showAdsView();
             this.saveAuthToken(userData);
             this.showInfo("Login successful!");
         }
+    }
+
+    register(username, email, password, confirmPassword) {
+        if(validateRequest.bind(this)()){
+            DbRequester.registerUser(username, email, password)
+                .then(successRegister.bind(this));
+
+            // clear input fields after register button click
+            this.cleanFieldsAfterSubmit(['usernameRegister', 'emailRegister', 'passwordRegister', 'confirmPassRegister']);
+
+            function successRegister(userData) {
+                this.showAdsView();
+                this.saveAuthToken(userData);
+                this.showInfo("Register successful!");
+            }
+        }
+
+        function validateRequest() {
+            if(!/^[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$/.test(email)){
+                $('#emailRegister').css("border-color","red");
+                this.showError("Invalid email");
+                return false;
+            }
+            $('#emailRegister').css("border-color","initial");
+
+            if(password !== confirmPassword){
+                $('#passwordRegister').css("border-color","red");
+                $('#confirmPassRegister').css("border-color","red");
+                this.showError("Password and confirm password are different");
+                return false;
+            }
+
+            $('#passwordRegister').css("border-color","initial");
+            $('#confirmPassRegister').css("border-color","initial");
+            return true;
+        }
+    }
+
+    cleanFieldsAfterSubmit(fields){
+        fields.map(function (field) {
+            $(`#${field}`).val("");
+        })
     }
 
     logout(){
@@ -138,10 +185,6 @@ export default class App extends Component {
             username: userData.username,
             userId: userData._id
         })
-    }
-
-    showRegisterView(){
-        this.showView(<RegisterView/>);
     }
 }
 

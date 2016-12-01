@@ -6,7 +6,7 @@ export default class Login extends Component {
     render() {
         return(
             <div id="login-view">
-                <h1>Please login</h1>
+                <h1>Login user</h1>
                 <fieldset>
                     <form className="form-login" onSubmit={this.submitForm.bind(this)}>
                         <legend>Login form</legend>
