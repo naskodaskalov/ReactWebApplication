@@ -7,6 +7,9 @@ import $ from 'jquery';
 import HomeView from './Views/HomeView';
 import LoginView from './Views/LoginView';
 import RegisterView from './Views/RegisterView';
+import AdsView from './Views/AdsView';
+
+// Import requester
 import DbRequester from './DbRequester';
 
 export default class App extends Component {
@@ -98,7 +101,12 @@ export default class App extends Component {
     }
 
     showAdsView(){
-        // TODO
+        DbRequester.showAds()
+            .then(loadAdsSuccess.bind(this));
+
+        function loadAdsSuccess(adsData) {
+            this.showView(<AdsView ads={adsData}/>);
+        }
     }
 
     showCreateAdView(){
@@ -113,8 +121,8 @@ export default class App extends Component {
         this.cleanFieldsAfterSubmit(['usernameLogin', 'passwordLogin']);
 
         function successLogin(userData) {
-            this.showAdsView();
             this.saveAuthToken(userData);
+            this.showAdsView();
             this.showInfo("Login successful!");
         }
     }

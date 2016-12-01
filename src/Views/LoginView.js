@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 // TODO : make css for this file and update
 
-export default class Login extends Component {
+export default class LoginView extends Component {
     render() {
         return(
             <div id="login-view">

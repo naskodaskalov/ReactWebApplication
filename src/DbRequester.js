@@ -35,21 +35,30 @@ let DbRequester = (function () {
         })
     }
 
+    function showAds() {
+        return $.ajax({
+            method: "GET",
+            url: baseUrl + "appdata/" + appId + "/ads",
+            headers: getUserAuthHeaders()
+        })
+    }
+
     function logoutUser() {
         return $.ajax({
             method: "POST",
             url: baseUrl + "user/" + appId + "/_logout",
-            headers: getKinveyAuthSession()
+            headers: getUserAuthHeaders()
         });
+    }
 
-        function getKinveyAuthSession() {
-            return {"Authorization": "Kinvey " + sessionStorage.getItem("authToken")}
-        }
+    function getUserAuthHeaders() {
+        return {"Authorization": "Kinvey " + sessionStorage.getItem("authToken")}
     }
 
     return {loginUser,
             logoutUser,
-            registerUser};
+            registerUser,
+            showAds};
 })();
 
 export default DbRequester
