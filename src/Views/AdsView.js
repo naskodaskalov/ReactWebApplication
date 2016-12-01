@@ -5,7 +5,7 @@ import $ from 'jquery';
 export default class AdsView extends Component {
     render() {
         let ads = this.props.ads.map(ad =>
-            <div class="ad">
+            <div className="ad">
                 <h3>Author: {ad.author}</h3>
                 <h3>Title: {ad.title}</h3>
                 <h3>Content: {ad.body}</h3>

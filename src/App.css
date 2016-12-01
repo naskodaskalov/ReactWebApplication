@@ -13,8 +13,10 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  to { transform: rotate(360deg); }
+.ad {
+  background-color: #7CB3E9;
+  border: 1px solid ;
+  margin: 10px;
 }
 
 #infoBox, #errorBox, #loadingBox {
