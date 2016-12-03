@@ -44,16 +44,10 @@ let DbRequester = (function () {
     function createAd(title, author, body, price, phone, picture) {
         return $.ajax({
             method: "POST",
-            url: baseUrl + "appdata/" + appId,
+            url: baseUrl + "appdata/" + appId + "/ads",
             headers: getKinveyUserAuthHeaders(),
-            contentType: "application/json",
             data: JSON.stringify({
-               title: title,
-                author: author,
-                body: body,
-                price: price,
-                phone: phone,
-                picture: picture
+                title, author, body, price, phone, picture
             })
         })
     }
@@ -89,6 +83,7 @@ let DbRequester = (function () {
     return {loginUser,
             logoutUser,
             registerUser,
+        createAd,
             showAds,
             getAd};
 })();

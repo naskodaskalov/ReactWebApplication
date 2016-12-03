@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import CreateView from '../Views/CreateView'
-import DbRequester from '../DbRequester';
+import { createAd } from '../DbRequester';
 import notifications from '../Notifications/notifications';
+import $ from 'jquery';
 
 export default class CreateController extends Component {
     constructor(props){
         super(props);
-        this.state = { title: '', author: '', content: '', price: '', phone: '', picture: '', submitDisabled: false };
+        this.state = {
+            title: '',
+            author:'',
+            body: '',
+            price: '',
+            phone: '',
+            picture: '',
+            submitDisabled: false };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
         this.createAd = this.createAd.bind(this);
@@ -28,6 +36,7 @@ export default class CreateController extends Component {
     }
 
     onChangeHandler(event) {
+        event.preventDefault();
         switch (event.target.name) {
             case 'title':
                 this.setState({ title: event.target.value });
@@ -53,8 +62,18 @@ export default class CreateController extends Component {
 
     onSubmitHandler(event) {
         event.preventDefault();
-        this.setState({submitDisabled: true});
+        this.setState({ submitDisabled: true });
         this.createAd(this.state.title, this.state.author, this.state.body, this.state.price, this.state.phone, this.state.picture, this.onSubmitResponse);
+    }
+
+    onSubmitResponse(response) {
+        if (response === true) {
+            // Navigate away from create page
+            this.context.router.push('/ads');
+        } else {
+            // Something went wrong, let the user try again
+            this.setState({ submitDisabled: true });
+        }
     }
 
     createAd(title, author, body, price, phone, picture) {
@@ -67,7 +86,7 @@ export default class CreateController extends Component {
     }
 }
 
+
 CreateController.contextTypes = {
     router: React.PropTypes.object
 };
-

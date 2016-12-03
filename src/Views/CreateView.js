@@ -14,7 +14,6 @@ export default class CreateView extends Component {
                             <div className="col-md-4">
                             <input
                                 type="text"
-                                ref={e => this.titleField = e}
                                 name="title"
                                 className="form-control"
                                 onChange={this.props.onChangeHandler}
@@ -30,9 +29,6 @@ export default class CreateView extends Component {
                                 name="author"
                                 className="form-control"
                                 onChange={this.props.onChangeHandler}
-                                disabled="disabled"
-                                value={sessionStorage.getItem('username')}
-                                ref={e => this.authorField = e}
                             />
                         </div>
                         </div>
@@ -44,9 +40,8 @@ export default class CreateView extends Component {
                                 className="form-control"
                                 onChange={this.props.onChangeHandler}
                                 required="required"
-                                rows="4"
-                                ref={e => this.descriptionField = e}
-                            ></textarea>
+                                rows="4">
+                            </textarea>
                         </div>
                         </div>
                         <div className="form-group">
@@ -56,12 +51,12 @@ export default class CreateView extends Component {
                                 <div className="input-group-addon">лв.</div>
                                 <input
                                     type="text"
+                                    name="price"
                                     className="form-control col-md-4"
                                     id="exampleInputAmount"
                                     placeholder="Въведете вашата цена"
                                     onChange={this.props.onChangeHandler}
-                                    required="required"
-                                    ref={e => this.priceField = e} />
+                                    required="required" />
                                     <div className="input-group-addon">.00</div>
                             </div>
 
@@ -81,11 +76,10 @@ export default class CreateView extends Component {
                             <div className="col-md-4">
                             <input
                                 type="number"
-                                name="price"
+                                name="phone"
                                 className="form-control col-md-4"
                                 onChange={this.props.onChangeHandler}
                                 required="required"
-                                ref={e => this.phoneField = e}
                             />
                         </div>
                         </div>
@@ -94,12 +88,11 @@ export default class CreateView extends Component {
                             <div className="col-md-4">
                             <input
                                 type="number"
-                                name="price"
+                                name="picture"
                                 className="form-control col-md-4"
                                 onChange={this.props.onChangeHandler}
                                 //required="required"
                                 disabled="disabled"  // TODO: to be turned on...
-                                ref={e => this.pictureField = e}
                             />
                             </div>
                         </div>

@@ -40,13 +40,13 @@ export default class RegisterController extends Component {
                 this.setState({ username: event.target.value });
                 break;
             case 'email':
-                this.setState({ password: event.target.value });
+                this.setState({ email: event.target.value });
                 break;
             case 'password':
                 this.setState({ password: event.target.value });
                 break;
             case 'confirmPassword':
-                this.setState({ password: event.target.value });
+                this.setState({ confirmPassword: event.target.value });
                 break;
             default: break;
         }
@@ -54,44 +54,48 @@ export default class RegisterController extends Component {
 
     onSubmitHandler(event) {
         event.preventDefault();
+        if (this.state.password !== this.state.confirmPassword) {
+            alert("Passwords don't match");
+            return;
+        }
         this.setState({ submitDisabled: true });
-        this.register(this.state.username,this.state.email, this.state.password, this.state.confirmPassword);
+        this.register(this.state.username, this.state.email, this.state.password, this.state.confirmPassword);
     }
 
     register(username, email, password, confirmPassword) {
-        console.log(password);
-        console.log(confirmPassword);
-        if(validateRequest.bind(this)()){
-            DbRequester.registerUser(username, email, password)
-                .then(successRegister.bind(this));
+        DbRequester.registerUser(username, email, password)
+                 .then(successRegister.bind(this));
+        // if(validateRequest.bind(this)()){
+        //     DbRequester.registerUser(username, email, password)
+        //         .then(successRegister.bind(this));
 
             function successRegister(userData) {
                 user.saveAuthToken(userData);
                 this.context.router.push('/');
-                notifications.showInfo("Register successful!");
+                notifications.showInfo("Успешно се регистрирахте в GanyoExpress.BG!");
             }
         }
 
-        function validateRequest() {
-            if(!/^[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$/.test(email)){
-                $('#emailRegister').css("border-color","red");
-                notifications.showError("Invalid email");
-                return false;
-            }
-            $('#emailRegister').css("border-color","initial");
+        // function validateRequest() {
+        //     if(!/^[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$/.test(email)){
+        //         $('#emailRegister').css("border-color","red");
+        //         notifications.showError("Invalid email");
+        //         return false;
+        //     }
+        //     $('#emailRegister').css("border-color","initial");
+        //
+        //     if(password !== confirmPassword){
+        //         $('#passwordRegister').css("border-color","red");
+        //         $('#confirmPassRegister').css("border-color","red");
+        //         notifications.showError("Password and confirm password are different");
+        //         return false;
+        //     }
+        //
+        //     $('#passwordRegister').css("border-color","initial");
+        //     $('#confirmPassRegister').css("border-color","initial");
+        //     return true;
+        // }
 
-            if(password !== confirmPassword){
-                $('#passwordRegister').css("border-color","red");
-                $('#confirmPassRegister').css("border-color","red");
-                notifications.showError("Password and confirm password are different");
-                return false;
-            }
-
-            $('#passwordRegister').css("border-color","initial");
-            $('#confirmPassRegister').css("border-color","initial");
-            return true;
-        }
-    }
 }
 
 
