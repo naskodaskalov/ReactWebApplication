@@ -24,7 +24,6 @@ export default class CreateView extends Component {
                         </div>
                         <div className="form-group">
                             <label className="col-md-4 control-label">Автор:</label>
-                            {/*TODO : convert userId to username*/}
                             <div className="col-md-4">
                             <input
                                 type="text"
@@ -32,7 +31,7 @@ export default class CreateView extends Component {
                                 className="form-control"
                                 onChange={this.props.onChangeHandler}
                                 disabled="disabled"
-                                value={sessionStorage.getItem('userId')}
+                                value={sessionStorage.getItem('username')}
                                 ref={e => this.authorField = e}
                             />
                         </div>
