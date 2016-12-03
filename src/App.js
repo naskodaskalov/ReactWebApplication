@@ -136,8 +136,9 @@ export default class App extends Component {
             this.cleanFieldsAfterSubmit(['usernameRegister', 'emailRegister', 'passwordRegister', 'confirmPassRegister']);
 
             function successRegister(userData) {
-                this.showAdsView();
                 this.saveAuthToken(userData);
+
+                this.showAdsView();
                 this.showInfo("Register successful!");
             }
         }
