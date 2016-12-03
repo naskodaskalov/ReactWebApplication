@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
-// TODO : make css for this file and update
+import requester from '../DbRequester';
+import App from '../App';
 
 export default class AdsView extends Component {
     render() {
@@ -11,14 +11,20 @@ export default class AdsView extends Component {
                 <td>{ad.body}</td>
                 <td>{ad.price}</td>
                 <td>
-                    <button onClick={showCurrentAd}>Разгледай</button>
+                    <button onClick={function () {
+                        showCurrentAd(ad._id)
+                    }}>Разгледай</button>
                 </td>
-
             </tr>
         );
 
-        function showCurrentAd() {
-            alert("delete ad")
+        function showCurrentAd(adId) {
+            requester.getAd(adId)
+                .then(successAdGet);
+
+            function successAdGet(adInfo) {
+              // TODO
+            }
         }
 
         return(

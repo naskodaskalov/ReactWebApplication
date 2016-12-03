@@ -43,6 +43,14 @@ let DbRequester = (function () {
         })
     }
 
+    function getAd(adId) {
+        return $.ajax({
+            method: "GET",
+            url: baseUrl + "appdata/" + appId + "/ads/" + adId,
+            headers: getUserAuthHeaders()
+        })
+    }
+
     function logoutUser() {
         return $.ajax({
             method: "POST",
@@ -58,7 +66,8 @@ let DbRequester = (function () {
     return {loginUser,
             logoutUser,
             registerUser,
-            showAds};
+            showAds,
+            getAd};
 })();
 
 export default DbRequester

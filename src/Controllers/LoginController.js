@@ -1,34 +1,62 @@
 import React, { Component } from 'react';
-
-// TODO : make css for this file and update
+import LoginView from '../Views/LoginView'
+import DbRequester from '../DbRequester';
+import notifications from '../Notifications/notifications';
+import observer from '../Models/observer';
+import user from '../Models/user';
 
 export default class LoginController extends Component {
+    constructor(props){
+        super(props);
+        this.state = { loggedIn: false, username: '', password: '', submitDisabled: false };
+        this.onChangeHandler = this.onChangeHandler.bind(this);
+        this.onSubmitHandler = this.onSubmitHandler.bind(this);
+        this.login = this.login.bind(this);
+    }
     render() {
         return(
-            <div id="login-view">
-                <h1>Login user</h1>
-                <fieldset>
-                    <form className="form-login" onSubmit={this.submitForm.bind(this)}>
-                        <legend>Login form</legend>
-                        <label>
-                            <div>Username:</div>
-                            <input type="text" id="usernameLogin"
-                                   ref={x => this.usernameField = x} />
-                        </label>
-                        <label>
-                            <div> Password:</div>
-                            <input type="password" id="passwordLogin"
-                                   ref={x => this.usernamePass = x} />
-                        </label><br/>
-                        <input type="submit" value="Login"/>
-                    </form>
-                </fieldset>
-            </div>
+            <LoginView
+                username={this.state.username}
+                password={this.state.password}
+                repeat={this.state.repeat}
+                submitDisabled={this.state.submitDisabled}
+                onChangeHandler={this.onChangeHandler}
+                onSubmitHandler={this.onSubmitHandler}
+            />
         )
     }
 
-    submitForm(event){
+    onChangeHandler(event) {
+        switch (event.target.name) {
+            case 'username':
+                this.setState({ username: event.target.value });
+                break;
+            case 'password':
+                this.setState({ password: event.target.value });
+                break;
+            default: break;
+        }
+    }
+
+    onSubmitHandler(event) {
         event.preventDefault();
-        this.props.submit(this.usernameField.value, this.usernamePass.value)
+        this.setState({ submitDisabled: true });
+        this.login(this.state.username, this.state.password);
+    }
+
+    login(username, password) {
+        DbRequester.loginUser(username, password)
+            .then(successLogin.bind(this));
+
+        function successLogin(userData) {
+            user.saveAuthToken(userData);
+            this.context.router.push('/');
+            notifications.showInfo("Login successful!");
+        }
     }
 }
+
+
+LoginController.contextTypes = {
+    router: React.PropTypes.object
+};

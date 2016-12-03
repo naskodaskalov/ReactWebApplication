@@ -8,27 +8,30 @@ export default class LoginView extends Component {
             <div id="login-view">
                 <h1>Login user</h1>
                 <fieldset>
-                    <form className="form-login" onSubmit={this.submitForm.bind(this)}>
+                    <form className="form-login" onSubmit={this.props.onSubmitHandler}>
                         <legend>Login form</legend>
                         <label>
                             <div>Username:</div>
-                            <input type="text" id="usernameLogin"
-                                   ref={x => this.usernameField = x} />
+                            <input
+                                type="text"
+                                name="username"
+                                onChange={this.props.onChangeHandler}
+                                required="required"
+                            />
                         </label>
                         <label>
                             <div> Password:</div>
-                            <input type="password" id="passwordLogin"
-                                   ref={x => this.usernamePass = x} />
+                            <input
+                                type="password"
+                                name="password"
+                                onChange={this.props.onChangeHandler}
+                                required="required"
+                            />
                         </label><br/>
-                        <input type="submit" value="Login"/>
+                        <input type="submit" value="Login" />
                     </form>
                 </fieldset>
             </div>
         )
-    }
-
-    submitForm(event){
-        event.preventDefault();
-        this.props.submit(this.usernameField.value, this.usernamePass.value)
     }
 }
