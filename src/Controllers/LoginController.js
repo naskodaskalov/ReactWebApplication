@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import LoginView from '../Views/LoginView'
 import DbRequester from '../DbRequester';
 import notifications from '../Notifications/notifications';
-import observer from '../Models/observer';
 import user from '../Models/user';
 
 export default class LoginController extends Component {

@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import './App.css';
 import NavigationBar from './Components/NavigationBar';
 import $ from 'jquery';
 
 // Import requester
 import DbRequester from './DbRequester';
-import { Router, browserHistory } from 'react-router'
-import { Route, IndexRoute, Link } from 'react-router'
+import { Link } from 'react-router'
 import Header from './Components/Header';
 import observer from './Models/observer';
 import notifications  from './Notifications/notifications';
@@ -34,6 +32,7 @@ export default class App extends Component {
         });
 
         $(document).ajaxError(notifications.handleAjaxError());
+
     }
 
     onSessionUpdate() {
@@ -49,19 +48,58 @@ export default class App extends Component {
         if(this.state.loggedIn){
             navBar = (
                 <NavigationBar>
-                    <Link to="/" >Начало</Link>
-                    <Link to="/ads">обяви</Link>
-                    <Link to="/createAd">Създай обява</Link>
-                    <Link to="/" onClick={this.logout.bind(this)}>Изход</Link>
-                    <div>Здравей, {this.state.username}</div>
+                        {/*<Link to="/" >Начало</Link>*/}
+                        {/*<Link to="/ads">обяви</Link>*/}
+                        {/*<Link to="/createAd">Създай обява</Link>*/}
+                        {/*<Link to="/" onClick={this.logout.bind(this)}>Изход</Link>*/}
+                    <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
+                        <div className="container">
+                            <div className="collapse navbar-collapse navbar-ex1-collapse">
+                                <ul className="nav navbar-nav">
+                                    <li>
+                                        <Link to="/">Начало</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/ads">Всички обяви</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/create-ad">Създай обява</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/" onClick={this.logout.bind(this)}>Излез</Link>
+                                    </li>
+                                    <li>Здравей, {this.state.username}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
                 </NavigationBar>
             );
         } else {
             navBar = (
                 <NavigationBar>
-                    <Link to="/" >Начало</Link>
-                    <Link to="/login">Вход</Link>
-                    <Link to="/register">Регистрация</Link>
+                    <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
+                        <div className="container">
+                            <div className="collapse navbar-collapse navbar-ex1-collapse">
+                    {/*<Link to="/" >Начало</Link>*/}
+                    {/*<Link to="/login">Вход</Link>*/}
+                    {/*<Link to="/register">Регистрация</Link>*/}
+                                <ul className="nav navbar-nav">
+
+                                    <li>
+                                        <Link to="/"  className="page-scroll">Начало</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/login" className="page-scroll">Вход</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/register" className="page-scroll">Регистрация</Link>
+                                    </li>
+                                </ul>
+                                </div>
+                            </div>
+                        </nav>
                 </NavigationBar>
             );
         }
@@ -96,13 +134,13 @@ export default class App extends Component {
 
         function logoutSuccess() {
             this.setState({
-                username: '',
-                userId: '',
+                username: null,
+                userId: null,
                 loggedIn: false
             });
             sessionStorage.clear();
             notifications.showInfo("Logout successful");
-            this.context.router.push('/');
+//            this.context.router.push('/');
         }
     }
 }

@@ -35,6 +35,29 @@ let DbRequester = (function () {
         })
     }
 
+    function getKinveyUserAuthHeaders() {
+        return {
+            'Authorization': "Kinvey " + sessionStorage.getItem('authToken'),
+        };
+    }
+
+    function createAd(title, author, body, price, phone, picture) {
+        return $.ajax({
+            method: "POST",
+            url: baseUrl + "appdata/" + appId,
+            headers: getKinveyUserAuthHeaders(),
+            contentType: "application/json",
+            data: JSON.stringify({
+               title: title,
+                author: author,
+                body: body,
+                price: price,
+                phone: phone,
+                picture: picture
+            })
+        })
+    }
+
     function showAds() {
         return $.ajax({
             method: "GET",

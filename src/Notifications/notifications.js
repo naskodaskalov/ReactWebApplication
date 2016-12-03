@@ -25,6 +25,6 @@ let notifications = (function () {
     }
 
     return {showInfo, showError, handleAjaxError}
-})()
+})();
 
 export default notifications;
