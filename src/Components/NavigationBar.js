@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './NavigationBar.css';
+import { Route, IndexRoute, Link } from 'react-router'
+
 
 export default class NavigationBar extends Component {
 
@@ -7,19 +9,19 @@ export default class NavigationBar extends Component {
         if(this.props.username != null){
             return (
                 <div className="links">
-                    <a href="#" onClick={this.props.clickHome}>Home</a>
-                    <a href="#" onClick={this.props.clickAds}>Ads</a>
-                    <a href="#" onClick={this.props.clickAdCreate}>Create Ad</a>
+                    <a href="#" onClick={this.props.clickHome}>Начало</a>
+                    <a href="#" onClick={this.props.clickAds}>обяви</a>
+                    <a href="#" onClick={this.props.clickAdCreate}>Създай обява</a>
                     <a href="#" onClick={this.props.clickLogout}>Logout</a>
-                    <div>Hello, {this.props.username}</div>
+                    <div>Здравей, {this.props.username}</div>
                 </div>
             );
         } else {
             return (
                 <div className="links">
-                    <a href="#" onClick={this.props.clickHome}>Home</a>
-                    <a href="#" onClick={this.props.clickLogin}>Login</a>
-                    <a href="#" onClick={this.props.clickRegister}>Register</a>
+                    <a href="#" onClick={this.props.clickHome}>Начало</a>
+                    <a href="#" onClick={this.props.clickLogin}>Вход</a>
+                    <a href="#" onClick={this.props.clickRegister}>Регистрация</a>
                 </div>
             );
         }
