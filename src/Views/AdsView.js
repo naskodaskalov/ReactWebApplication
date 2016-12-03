@@ -5,28 +5,39 @@ import $ from 'jquery';
 export default class AdsView extends Component {
     render() {
         let ads = this.props.ads.map(ad =>
-            <div className="ad">
-                <h3>Author: {ad.author}</h3>
-                <h3>Title: {ad.title}</h3>
-                <h3>Content: {ad.body}</h3>
-                <button onClick={deleteAd}>Delete</button>
-                <button onClick={editAd}>Edit</button>
-            </div>
+            <tr className="ad">
+                <td>{ad.author}</td>
+                <td>{ad.title}</td>
+                <td>{ad.body}</td>
+                <td>{ad.price}</td>
+                <td>
+                    <button onClick={showCurrentAd}>Разгледай</button>
+                </td>
+
+            </tr>
         );
-        console.log(ads);
 
-        function deleteAd() {
+        function showCurrentAd() {
             alert("delete ad")
-        }
-
-        function editAd() {
-            alert("edit ad");
         }
 
         return(
             <div id="ads-view">
-                <h1>Ads</h1>
-                <div id="ads-content">{ads}</div>
+                <h1>Обяви</h1>
+                <div id="ads-content">
+                    <table>
+                        <thead>
+                            <td>Заглавие</td>
+                            <td>Автор</td>
+                            <td>Съдържание</td>
+                            <td>Цена</td>
+                            <td>Действия</td>
+                        </thead>
+                        <tbody>
+                        {ads}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         )
     }
