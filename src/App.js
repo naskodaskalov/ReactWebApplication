@@ -13,7 +13,7 @@ import notifications  from './Notifications/notifications';
 export default class App extends Component {
     constructor(props) {
         super(props);
-        this.state = { loggedIn: false, username: '' };
+        this.state = { loggedIn: false, username: '', userId: '' };
         this.onSessionUpdate = this.onSessionUpdate.bind(this);
     }
 
@@ -37,9 +37,9 @@ export default class App extends Component {
 
     onSessionUpdate() {
         if (sessionStorage.getItem("username")) {
-            this.setState({ loggedIn: true, username: sessionStorage.getItem("username") });
+            this.setState({ loggedIn: true, username: sessionStorage.getItem("username"), userId: sessionStorage.getItem("userId")});
         } else {
-            this.setState({ loggedIn: false, username: '' });
+            this.setState({ loggedIn: false, username: '', userId:'' });
         }
     }
 
@@ -48,10 +48,6 @@ export default class App extends Component {
         if(this.state.loggedIn){
             navBar = (
                 <NavigationBar>
-                        {/*<Link to="/" >Начало</Link>*/}
-                        {/*<Link to="/ads">обяви</Link>*/}
-                        {/*<Link to="/createAd">Създай обява</Link>*/}
-                        {/*<Link to="/" onClick={this.logout.bind(this)}>Изход</Link>*/}
                     <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
                         <div className="container">
                             <div className="collapse navbar-collapse navbar-ex1-collapse">
@@ -68,7 +64,7 @@ export default class App extends Component {
                                     <li>
                                         <Link to="/" onClick={this.logout.bind(this)}>Излез</Link>
                                     </li>
-                                    <li>Здравей, {this.state.username}</li>
+                                    <li><Link to="/">Здравей, {this.state.username}</Link></li>
                                 </ul>
                             </div>
                         </div>
@@ -82,9 +78,6 @@ export default class App extends Component {
                     <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
                         <div className="container">
                             <div className="collapse navbar-collapse navbar-ex1-collapse">
-                    {/*<Link to="/" >Начало</Link>*/}
-                    {/*<Link to="/login">Вход</Link>*/}
-                    {/*<Link to="/register">Регистрация</Link>*/}
                                 <ul className="nav navbar-nav">
 
                                     <li>
@@ -134,13 +127,12 @@ export default class App extends Component {
 
         function logoutSuccess() {
             this.setState({
-                username: null,
-                userId: null,
+                username: '',
+                userId: '',
                 loggedIn: false
             });
             sessionStorage.clear();
-            notifications.showInfo("Logout successful");
-//            this.context.router.push('/');
+            notifications.showInfo("Излязохте успешно от профилът си.");
         }
     }
 }

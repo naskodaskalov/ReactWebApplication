@@ -7,7 +7,7 @@ export default class Register extends Component {
         return(
         <div id="register-view">
             <form className="form-horizontal" onSubmit={this.props.onSubmitHandler}>
-                <h1>:: Направете Вашата регистрация в GanyoExpress.BG</h1>
+                <h1> Направете Вашата регистрация в GanyoExpress.BG</h1>
                 <div className="form-group">
                     <label className="col-md-4 control-label">Потребителско име:</label>
                     <div className="col-md-4">

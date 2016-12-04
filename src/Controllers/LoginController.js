@@ -45,12 +45,13 @@ export default class LoginController extends Component {
 
     login(username, password) {
         DbRequester.loginUser(username, password)
-            .then(successLogin.bind(this));
+            .then(successLogin.bind(this))
+            .catch(notifications.handleAjaxError);
 
         function successLogin(userData) {
             user.saveAuthToken(userData);
             this.context.router.push('/');
-            notifications.showInfo("Login successful!");
+            notifications.showInfo("Влязохте успешно в профилът си!");
         }
     }
 }

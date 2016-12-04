@@ -12,7 +12,7 @@ let notifications = (function () {
     function handleAjaxError(event, response) {
         let errorMsg = JSON.stringify(response);
         if (response.readyState === 0)
-            errorMsg = "Cannot connect due to network error.";
+            errorMsg = "Няма връзка с интернет.";
         if (response.responseJSON &&
             response.responseJSON.description)
             errorMsg = response.responseJSON.description;
@@ -20,7 +20,7 @@ let notifications = (function () {
     }
 
     function showError(errorMsg) {
-        $('#errorBox').text("Error: " + errorMsg);
+        $('#errorBox').text("Грешка: " + errorMsg);
         $('#errorBox').show();
     }
 

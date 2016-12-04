@@ -34,7 +34,6 @@ export default class RegisterController extends Component {
     }
 
     onChangeHandler(event) {
-        event.preventDefault();
         switch (event.target.name) {
             case 'username':
                 this.setState({ username: event.target.value });
@@ -54,20 +53,14 @@ export default class RegisterController extends Component {
 
     onSubmitHandler(event) {
         event.preventDefault();
-        if (this.state.password !== this.state.confirmPassword) {
-            alert("Passwords don't match");
-            return;
-        }
         this.setState({ submitDisabled: true });
         this.register(this.state.username, this.state.email, this.state.password, this.state.confirmPassword);
     }
 
     register(username, email, password, confirmPassword) {
-        DbRequester.registerUser(username, email, password)
-                 .then(successRegister.bind(this));
-        // if(validateRequest.bind(this)()){
-        //     DbRequester.registerUser(username, email, password)
-        //         .then(successRegister.bind(this));
+        if (validateRequest.bind(this)()) {
+            DbRequester.registerUser(username, email, password)
+                .then(successRegister.bind(this));
 
             function successRegister(userData) {
                 user.saveAuthToken(userData);
@@ -76,25 +69,26 @@ export default class RegisterController extends Component {
             }
         }
 
-        // function validateRequest() {
-        //     if(!/^[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$/.test(email)){
-        //         $('#emailRegister').css("border-color","red");
-        //         notifications.showError("Invalid email");
-        //         return false;
-        //     }
-        //     $('#emailRegister').css("border-color","initial");
-        //
-        //     if(password !== confirmPassword){
-        //         $('#passwordRegister').css("border-color","red");
-        //         $('#confirmPassRegister').css("border-color","red");
-        //         notifications.showError("Password and confirm password are different");
-        //         return false;
-        //     }
-        //
-        //     $('#passwordRegister').css("border-color","initial");
-        //     $('#confirmPassRegister').css("border-color","initial");
-        //     return true;
-        // }
+        function validateRequest() {
+            if (!/^[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$/.test(email)) {
+                $('#emailRegister').css("border-color", "red");
+                notifications.showError("Невалиден имейл!");
+                return false;
+            }
+            $('#emailRegister').css("border-color", "initial");
+
+            if (password !== confirmPassword) {
+                $('#passwordRegister').css("border-color", "red");
+                $('#confirmPassRegister').css("border-color", "red");
+                notifications.showError("Паролите не съвпадат!");
+                return false;
+            }
+
+            $('#passwordRegister').css("border-color", "initial");
+            $('#confirmPassRegister').css("border-color", "initial");
+            return true;
+        }
+    }
 
 }
 
