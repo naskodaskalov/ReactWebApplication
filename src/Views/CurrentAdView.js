@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import DbRequester from '../Models/dbRequester.js';
 import notifications from '../Notifications/notifications';
-import { Link } from 'react-router'
+import {Link} from 'react-router'
 import $ from 'jquery';
 // TODO : make css for this file and update
 
@@ -36,14 +36,62 @@ export default class Ad extends Component {
         let ad = this.state.ad;
 
         return (
-        <div className="ad-view">
-                <h3>{ad.author}</h3>
-                <h3>{ad.title}</h3>
-                <h2>{ad.body}</h2>
-                <h2>{ad.price}</h2>
-                <div>
-                    <button onClick={deleteAd}>Изтрий</button>
-                    <button onClick={editAd}>Редактирай</button>
+            <div className="ad-view">
+                <div className="container">
+
+                    <div className="row">
+                        <div className="panel panel-default center-block">
+                            <div className="panel-heading">Снимка:</div>
+                            <div className="panel-body">
+                                <img src={ad.picture} className="img-thumbnail" width="400" height="400" alt="photo"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="panel panel-default center-block">
+                            <div className="panel-heading">Автор:</div>
+                            <div className="panel-body">
+                                {ad.author}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="panel panel-default center-block">
+                            <div className="panel-heading">Заглавие:</div>
+                            <div className="panel-body">
+                                {ad.title}
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div className="row">
+                        <div className="panel panel-default center-block">
+                            <div className="panel-heading">Описание:</div>
+                            <div className="panel-body">
+                                {ad.body}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="panel panel-default center-block">
+                            <div className="panel-heading">Цена:</div>
+                            <div className="panel-body">
+                                <span>{ad.price} лева.</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <button onClick={deleteAd}>Изтрий</button>
+                        <button onClick={editAd}>Редактирай</button>
+                    </div>
+
                 </div>
             </div>
         )

@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  margin-top: 1cm;
 }
 
 .App-header {
@@ -37,8 +38,4 @@
 #errorBox {
   background: #F50;
 }
-
-/*.active {*/
-  /*color:green;*/
-/*}*/
 
