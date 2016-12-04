@@ -19,9 +19,8 @@ ReactDOM.render((
             <IndexRoute component={Home}/>
             <Route path="login" component={Login}/>
             <Route path="register" component={Register}/>
-            <Route path="ads" component={Ads} >
-                <Route path=":adId" component={Ad}/>
-            </Route>
+            <Route path="ads" component={Ads} />
+            <Route path="ads/:adId" component={Ad}/>
             <Route path="/create-ad" component={CreateAd}/>
             <Route path="edit/:adID" component={EditView}/>
         </Route>
