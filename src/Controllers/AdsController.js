@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import DbRequester from '../Models/dbRequester';
 import { Link } from 'react-router'
+import $ from 'jquery';
+import notifications from '../Notifications/notifications';
+import AdCard from '../Components/AdCard.js';
+import './AdsController.css';
 
 export default class AdsController extends Component {
     constructor(props){
         super(props);
         this.loadAds = this.loadAds.bind(this);
-        this.state = {tableRows:null};
+        this.state = {ads:[]};
     }
 
     componentDidMount(){
@@ -20,17 +24,9 @@ export default class AdsController extends Component {
             .then(loadAdsSuccess.bind(this));
 
         function loadAdsSuccess(adsData) {
-            let tBodyRows =  adsData.map(ad =>
-                <tr key={ad._id}>
-                    <td>{ad.title}</td>
-                    <td>{ad.author}</td>
-                    <td>{ad.body}</td>
-                    <td>{ad.price}</td>
-                    <td><Link to={"/ads/" + ad._id}>Разгледай</Link></td>
-                </tr>);
 
             this.setState({
-                tableRows: tBodyRows
+                ads: adsData
             })
         }
     }
@@ -39,21 +35,10 @@ export default class AdsController extends Component {
         return(
             <div id="ads-view">
                 <h1>Обяви</h1>
-                <div id="ads-content">
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th className="table-bordered th">Заглавие</th>
-                                <th className="table-bordered th">Автор</th>
-                                <th className="table-bordered th">Съдържание</th>
-                                <th className="table-bordered th">Цена</th>
-                                <th className="table-bordered th">Действия</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {this.state.tableRows}
-                        </tbody>
-                    </table>
+                <div className="cards">
+                    {this.state.ads.map((e, i) => {
+                        return <AdCard key={i} picture={e.picture} title={e.title} id={e._id} price={e.price}/>
+                    })}
                 </div>
             </div>
         )

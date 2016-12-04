@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import DbRequester from '../Models/dbRequester.js';
-// TODO : make css for this file and update
+import notifications from '../Notifications/notifications';
+import {Link} from 'react-router'
+import $ from 'jquery';
 
 export default class Ad extends Component {
 
@@ -9,7 +11,8 @@ export default class Ad extends Component {
         this.loadAds = this.loadAds.bind(this);
         this.state = {
             ad: {},
-            tableRows:{}
+            tableRows:{},
+            comment: {}
         };
 
         this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -25,7 +28,7 @@ export default class Ad extends Component {
             .then(loadAdsSuccess.bind(this));
 
         function loadAdsSuccess(ad) {
-            let adId = ad._id;
+            //let adId = ad._id;
 
             this.setState({
                 ad: ad
@@ -38,30 +41,75 @@ export default class Ad extends Component {
         let ad = this.state.ad;
 
         return (
-            <div className="ad-view">
-                <h3>{ad.author}</h3>
-                <h3>{ad.title}</h3>
-                <h2>{ad.body}</h2>
-                <h2>{ad.price}</h2>
-                <div>
-                    <button onClick={deleteAd}>Изтрий</button>
-                    <button onClick={editAd}>Редактирай</button>
-                </div><br/><br/>
-                <h2>Коментари</h2>
-                <table className="table table-striped">
-                    <thead>
+                <div className="container">
+                    <div className="row">
+                        <div className="panel panel-default center-block">
+                            <div className="panel-heading">Снимка:</div>
+                            <div className="panel-body">
+                                <img src={ad.picture} className="img-thumbnail" width="400" height="400" alt="photo"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="panel panel-default center-block">
+                            <div className="panel-heading">Автор:</div>
+                            <div className="panel-body">
+                                {ad.author}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="panel panel-default center-block">
+                            <div className="panel-heading">Заглавие:</div>
+                            <div className="panel-body">
+                                {ad.title}
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div className="row">
+                        <div className="panel panel-default center-block">
+                            <div className="panel-heading">Описание:</div>
+                            <div className="panel-body">
+                                {ad.body}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="panel panel-default center-block">
+                            <div className="panel-heading">Цена:</div>
+                            <div className="panel-body">
+                                <span>{ad.price} лева.</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <button onClick={deleteAd}>Изтрий</button>
+                        <button onClick={editAd}>Редактирай</button>
+                    </div>
+
+                    <h2>Коментари</h2>
+                    <table className="table table-striped">
+                        <thead>
                         <tr>
                             <td>Автор</td>
                             <td>Коментар</td>
                             <td>Действия</td>
                         </tr>
-                    </thead>
-                </table>
-                <div className="commentField">
-                    <textarea name="comment" rows="20" cols="10" onChange={this.onChangeHandler}/>
-                    <input type="button" value="Изпрати" onClick={this.createComment}/>
+                        </thead>
+                    </table>
+                    <div className="commentField">
+                        <textarea name="comment" rows="20" cols="10" onChange={this.onChangeHandler}/>
+                        <input type="button" value="Изпрати" onClick={this.createComment}/>
+                    </div>
                 </div>
-            </div>
         );
 
         function deleteAd() {
@@ -74,22 +122,12 @@ export default class Ad extends Component {
     }
 
     createComment() {
-
+        alert(this.state.comment);
     }
 
     onChangeHandler(event) {
-        switch (event.target.name) {
-            case 'username':
-                this.setState({ username: event.target.value });
-                break;
-            case 'password':
-                this.setState({ password: event.target.value });
-                break;
-            default: break;
-        }
+        this.setState({ comment: event.target.value });
     }
-
-
 }
 
 
