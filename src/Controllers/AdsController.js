@@ -26,7 +26,7 @@ export default class AdsController extends Component {
                     <td>{ad.author}</td>
                     <td>{ad.body}</td>
                     <td>{ad.price}</td>
-                    <td><Link to="/ads/adId">Разгледай</Link></td>
+                    <td><Link to={"/ads/" + ad._id}>Разгледай</Link></td>
                 </tr>);
 
             this.setState({
