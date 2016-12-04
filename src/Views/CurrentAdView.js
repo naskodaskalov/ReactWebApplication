@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
-// TODO : make css for this file and update
 
 export default class AdView extends Component {
     render() {

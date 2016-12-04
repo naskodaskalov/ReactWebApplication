@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 
 export default class CreateView extends Component {
+    componentWillMount(){
+        if(!sessionStorage.getItem("username"))  this.context.router.push('/');
+    }
     render() {
         return(
             <div id="create-view">
-                    <form className="form-horizontal" onSubmit={this.props.onSubmitHandler}>
+                    <form className="form-horizontal">
                         <h1>Добавете своята обява</h1>
                         <div className="form-group">
                             <label className="col-md-4 control-label">Заглавие:</label>
@@ -45,17 +48,6 @@ export default class CreateView extends Component {
                                     required="required" />
                                 <div className="input-group-addon">.00</div>
                             </div>
-
-                            {/*<div className="col-sm-10">*/}
-                            {/*<input*/}
-                            {/*type="number"*/}
-                            {/*name="price"*/}
-                            {/*className="form-control"*/}
-                            {/*onChange={this.props.onChangeHandler}*/}
-                            {/*required="required"*/}
-                            {/*ref={e => this.priceField = e}*/}
-                            {/*/>*/}
-                            {/*</div>*/}
                         </div>
                         <div className="form-group">
                             <label className="col-md-4 control-label">Телефон за връзка:</label>
@@ -83,10 +75,16 @@ export default class CreateView extends Component {
                             </div>
                         </div>
 
-                        <input type="submit" className="btn btn-default" value="Добавете своята обява" />
+                        <input type="button"  className="btn btn-default" value="Добавете своята обява" onClick={this.props.onSubmitHandler} />
                     </form>
             </div>
         )
     }
 }
+
+
+CreateView.contextTypes = {
+    router: React.PropTypes.object
+};
+
 

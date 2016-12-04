@@ -18,6 +18,7 @@ export default class CreateController extends Component {
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
         this.createAd = this.createAd.bind(this);
     }
+
     render() {
         return(
             <CreateView
@@ -73,7 +74,6 @@ export default class CreateController extends Component {
             // Navigate away from create page
             this.context.router.push('/ads');
             notifications.showInfo("Обявата беше успешно добавена!");
-            //this.context.router.push('/');
         }
     }
 }

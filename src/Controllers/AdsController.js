@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import DbRequester from '../Models/dbRequester';
-import notifications from '../Notifications/notifications';
 import { Link } from 'react-router'
-import $ from 'jquery';
 
 export default class AdsController extends Component {
     constructor(props){
@@ -12,6 +10,8 @@ export default class AdsController extends Component {
     }
 
     componentDidMount(){
+        if(!sessionStorage.getItem("username"))
+            this.context.router.push('/');
         this.loadAds();
     }
 
@@ -43,11 +43,11 @@ export default class AdsController extends Component {
                     <table className="table table-striped">
                         <thead>
                             <tr>
-                                <th>Заглавие</th>
-                                <th>Автор</th>
-                                <th>Съдържание</th>
-                                <th>Цена</th>
-                                <th>Действия</th>
+                                <th className="table-bordered th">Заглавие</th>
+                                <th className="table-bordered th">Автор</th>
+                                <th className="table-bordered th">Съдържание</th>
+                                <th className="table-bordered th">Цена</th>
+                                <th className="table-bordered th">Действия</th>
                             </tr>
                         </thead>
                         <tbody>

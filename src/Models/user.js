@@ -1,5 +1,4 @@
 import observer from './observer';
-import $ from 'jquery';
 
 let user = function () {
     function saveAuthToken(userData){
