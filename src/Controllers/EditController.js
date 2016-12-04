@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import CreateView from '../Views/CreateView'
-import { createAd } from '../DbRequester';
+import EditView from '../Views/EditView.js'
+import { editAd } from '../DbRequester';
 import notifications from '../Notifications/notifications';
 import $ from 'jquery';
 
-export default class CreateController extends Component {
+export default class EditController extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -17,11 +17,17 @@ export default class CreateController extends Component {
             submitDisabled: false };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
-        this.createAd = this.createAd.bind(this);
+        this.createAd = this.editAd.bind(this);
     }
+
+    componentDidMount() {
+        // Populate form
+        loadAdDetails(this.props.params.adID, this.onLoadSuccess);
+    }
+
     render() {
         return(
-            <CreateView
+            <EditView
                 title={this.state.title}
                 author={this.state.author}
                 body={this.state.body}
@@ -35,40 +41,38 @@ export default class CreateController extends Component {
         )
     }
 
+    onLoadSuccess(response) {
+        this.setState({
+            title: response.title,
+            body: response.body,
+            author: response.author,
+            price: response.price,
+            phone: response.phone,
+            picture: response.picture,
+            submitDisabled: false
+        });
+    }
+
     onChangeHandler(event) {
         event.preventDefault();
         let newState = {};
         newState[event.target.name] = event.target.value;
         this.setState(newState);
-
-        // event.preventDefault();
-        // switch (event.target.name) {
-        //     case 'title':
-        //         this.setState({ title: event.target.value });
-        //         break;
-        //     case 'author':
-        //         this.setState({ author: event.target.value });
-        //         break;
-        //     case 'body':
-        //         this.setState({ body: event.target.value });
-        //         break;
-        //     case 'price':
-        //         this.setState({ price: event.target.value });
-        //         break;
-        //     case 'phone':
-        //         this.setState({ phone: event.target.value });
-        //         break;
-        //     case 'picture':
-        //         this.setState({ picture: event.target.value });
-        //         break;
-        //     default: break;
-        // }
     }
 
     onSubmitHandler(event) {
         event.preventDefault();
         //this.setState({ submitDisabled: true });
-        this.createAd(this.state.title, this.state.author, this.state.body, this.state.price, this.state.phone, this.state.picture, this.onSubmitResponse);
+        this.editAd(
+            this.props.params.adID,
+            this.state.title,
+            this.state.author,
+            this.state.body,
+            this.state.price,
+            this.state.phone,
+            this.state.picture,
+            this.onSubmitResponse
+        );
     }
 
     onSubmitResponse(response) {
@@ -81,18 +85,18 @@ export default class CreateController extends Component {
         }
     }
 
-    createAd(title, author, body, price, phone, picture) {
-        DbRequester.createAd(title, author, body, price, phone, picture)
-            .then(successfulCreatedAd.bind(this));
+    editAd(adID, title, author, body, price, phone, picture) {
+        DbRequester.createAd(adID, title, author, body, price, phone, picture)
+            .then(successfulEditdAd.bind(this));
 
-        function successfulCreatedAd(adData) {
-            notifications.showInfo("Обявата беше успешно добавена!");
+        function successfulEditdAd(adData) {
+            notifications.showInfo("Обявата беше успешно редактирана!");
             //this.context.router.push('/');
         }
     }
 }
 
 
-CreateController.contextTypes = {
+EditController.contextTypes = {
     router: React.PropTypes.object
 };

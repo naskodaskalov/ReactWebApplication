@@ -52,6 +52,26 @@ let DbRequester = (function () {
         })
     }
 
+    function editAd(adID, title, author, body, price, phone, picture) {
+        return $.ajax({
+            method: "PUT",
+            url: baseUrl + "appdata/" + appId + "/ads" + adID,
+            headers: getKinveyUserAuthHeaders(),
+            data: JSON.stringify({
+                title, author, body, price, phone, picture
+            })
+        })
+    }
+
+    function loadAdDetails(adID, onAdSuccess) {
+        return $.ajax({
+            method: "GET",
+            url: baseUrl + "appdata/" + appId + "/ads/" + adID,
+            headers: getUserAuthHeaders()
+        }).then(onAdSuccess);
+
+    }
+
     function showAds() {
         return $.ajax({
             method: "GET",
@@ -83,7 +103,9 @@ let DbRequester = (function () {
     return {loginUser,
             logoutUser,
             registerUser,
-        createAd,
+            createAd,
+            editAd,
+            loadAdDetails,
             showAds,
             getAd};
 })();

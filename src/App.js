@@ -53,16 +53,16 @@ export default class App extends Component {
                             <div className="collapse navbar-collapse navbar-ex1-collapse">
                                 <ul className="nav navbar-nav">
                                     <li>
-                                        <Link to="/">Начало</Link>
+                                        <Link to="/" activeClassName="active">Начало</Link>
                                     </li>
                                     <li>
-                                        <Link to="/ads">Всички обяви</Link>
+                                        <Link to="/ads" activeClassName="active">Всички обяви</Link>
                                     </li>
                                     <li>
-                                        <Link to="/create-ad">Създай обява</Link>
+                                        <Link to="/create-ad" activeClassName="active">Създай обява</Link>
                                     </li>
                                     <li>
-                                        <Link to="/" onClick={this.logout.bind(this)}>Излез</Link>
+                                        <Link to="/" activeClassName="active" onClick={this.logout.bind(this)}>Излез</Link>
                                     </li>
                                     <li><Link to="/">Здравей, {this.state.username}</Link></li>
                                 </ul>
@@ -81,13 +81,13 @@ export default class App extends Component {
                                 <ul className="nav navbar-nav">
 
                                     <li>
-                                        <Link to="/"  className="page-scroll">Начало</Link>
+                                        <Link to="/" activeClassName="active" className="page-scroll">Начало</Link>
                                     </li>
                                     <li>
-                                        <Link to="/login" className="page-scroll">Вход</Link>
+                                        <Link to="/login" activeClassName="active" className="page-scroll">Вход</Link>
                                     </li>
                                     <li>
-                                        <Link to="/register" className="page-scroll">Регистрация</Link>
+                                        <Link to="/register" activeClassName="active" className="page-scroll">Регистрация</Link>
                                     </li>
                                 </ul>
                                 </div>
