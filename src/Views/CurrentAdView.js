@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import DbRequester from '../Models/dbRequester.js';
 import notifications from '../Notifications/notifications';
-import {Link} from 'react-router'
-import $ from 'jquery';
 
 export default class Ad extends Component {
 
@@ -10,9 +8,9 @@ export default class Ad extends Component {
         super(props);
         this.loadAds = this.loadAds.bind(this);
         this.state = {
-            ad: {},
-            tableRows:{},
-            comment: {}
+            ad: '',
+            tableRows: '',
+            comment: ''
         };
 
         this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -28,7 +26,6 @@ export default class Ad extends Component {
             .then(loadAdsSuccess.bind(this));
 
         function loadAdsSuccess(ad) {
-            //let adId = ad._id;
 
             this.setState({
                 ad: ad
@@ -99,14 +96,18 @@ export default class Ad extends Component {
                     <table className="table table-striped">
                         <thead>
                         <tr>
-                            <td>Автор</td>
-                            <td>Коментар</td>
-                            <td>Действия</td>
+                            <th>Автор</th>
+                            <th>Коментар</th>
+                            <th>Действия</th>
                         </tr>
                         </thead>
+                        <tbody>
+                        {this.state.tableRows}
+                        </tbody>
                     </table>
+
                     <div className="commentField">
-                        <textarea name="comment" rows="20" cols="10" onChange={this.onChangeHandler}/>
+                        <textarea name="comment" rows="6" cols="20" onChange={this.onChangeHandler}/><br/>
                         <input type="button" value="Изпрати" onClick={this.createComment}/>
                     </div>
                 </div>
@@ -122,7 +123,48 @@ export default class Ad extends Component {
     }
 
     createComment() {
-        alert(this.state.comment);
+        let commentBody = this.state.comment;
+        let commentAuthor = sessionStorage.getItem("username");
+        let adId = this.state.ad._id;
+
+        DbRequester.createComment(adId, commentBody, commentAuthor)
+            .then(successCommentCreate)
+            .catch(notifications.handleAjaxError);
+
+        function successCommentCreate() {
+            alert("create comment");
+            this.showComments.bind(this);
+        }
+    }
+
+    showComments(){
+        alert("showComments")
+        DbRequester.loadCommentsForAd()
+            .then(successLoadComments)
+            .catch(notifications.handleAjaxError);
+
+        function successLoadComments(comments) {
+            alert("success showComments")
+            let tableRows =  comments.map(comment =>
+                <tr key={comment._id}>
+                    <td>{comment.author}</td>
+                    <td>{comment.body}</td>
+                    <td>
+                        <button onClick={this.deleteComment.bind(this)}>Изтрий</button>
+                        <button onClick={this.editComment.bind(this)}>Редактирай</button>
+                    </td>
+                </tr>
+            );
+            this.setState({tableRows: tableRows});
+        }
+    }
+
+    deleteComment(){
+        alert("delete comment");
+    }
+
+    editComment(){
+        alert("edit comment");
     }
 
     onChangeHandler(event) {

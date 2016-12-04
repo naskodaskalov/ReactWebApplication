@@ -106,19 +106,27 @@ let DbRequester = (function () {
     }
 
 
-    // function createComment(adId, body, author) {
-    //     return $.ajax({
-    //         method: "POST",
-    //         url: baseUrl + "appdata/" + appId + "/ads",
-    //         headers: dbAuthHeaders,
-    //         contentType: "application/json",
-    //         data: JSON.stringify({
-    //             title: title,
-    //             author: author,
-    //             body: body
-    //         })
-    //     })
-    // }
+    function createComment(adId, body, author) {
+        return $.ajax({
+            method: "POST",
+            url: baseUrl + "appdata/" + appId + "/comments",
+            headers: getUserAuthHeaders(),
+            contentType: "application/json",
+            data: JSON.stringify({
+                adId: adId,
+                author: author,
+                body: body
+            })
+        })
+    }
+
+    function loadCommentsForAd(adId) {
+        return $.ajax({
+            method: "GET",
+            url: baseUrl + "appdata/" + appId + "/comments?=query=" + adId,
+            headers: getUserAuthHeaders()
+        })
+    }
 
     return {loginUser,
             logoutUser,
@@ -127,7 +135,9 @@ let DbRequester = (function () {
             editAd,
             loadAdDetails,
             showAds,
-            getAd};
+            getAd,
+            createComment,
+            loadCommentsForAd};
 })();
 
 export default DbRequester
