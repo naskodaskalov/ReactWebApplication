@@ -12,6 +12,10 @@ export default class LoginController extends Component {
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
         this.login = this.login.bind(this);
     }
+
+    componentWillMount(){
+        if(sessionStorage.getItem("username"))  this.context.router.push('/');
+    }
     render() {
         return(
             <LoginView

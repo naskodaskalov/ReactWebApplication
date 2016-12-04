@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import DbRequester from '../Models/dbRequester';
-import notifications from '../Notifications/notifications';
 import { Link } from 'react-router'
 import $ from 'jquery';
+import notifications from '../Notifications/notifications';
 import AdCard from '../Components/AdCard.js';
 import './AdsController.css';
 
@@ -14,6 +14,8 @@ export default class AdsController extends Component {
     }
 
     componentDidMount(){
+        if(!sessionStorage.getItem("username"))
+            this.context.router.push('/');
         this.loadAds();
     }
 

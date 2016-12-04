@@ -19,7 +19,13 @@ export default class RegisterController extends Component {
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
         this.register = this.register.bind(this);
     }
+
+    componentWillMount(){
+        if(sessionStorage.getItem("username"))  this.context.router.push('/');
+    }
+
     render() {
+
         return(
             <RegisterView
                 username={this.state.username}

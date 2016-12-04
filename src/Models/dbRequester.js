@@ -56,7 +56,7 @@ let DbRequester = (function () {
         return $.ajax({
             method: "POST",
             url: baseUrl + "appdata/" + appId + "/ads",
-            headers: getUserAuthHeaders(),
+            headers: dbAuthHeaders,
             contentType: "application/json",
             data: JSON.stringify({
                 title: title,
@@ -103,17 +103,6 @@ let DbRequester = (function () {
             url: baseUrl + "appdata/" + appId + "/ads/" + adId,
             headers: getUserAuthHeaders()
         })
-    }
-    function logoutUser() {
-        return $.ajax({
-            method: "POST",
-            url: baseUrl + "user/" + appId + "/_logout",
-            headers: getUserAuthHeaders()
-        });
-    }
-
-    function getUserAuthHeaders() {
-        return {"Authorization": "Kinvey " + sessionStorage.getItem("authToken")}
     }
 
     return {loginUser,
