@@ -14,7 +14,6 @@ export default class AdView extends Component {
                     <button onClick={deleteAd}>Изтрий</button>
                     <button onClick={editAd}>Редактирай</button>
                 </div>
-
             </div>
         );
 

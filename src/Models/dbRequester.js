@@ -9,6 +9,13 @@ let DbRequester = (function () {
     const base64auth = btoa(appId + ":" + appSecret);
     const dbAuthHeaders = {"Authorization": "Basic " + base64auth};
 
+
+    function getUserAuthHeaders() {
+        return {"Authorization": "Kinvey " + sessionStorage.getItem("authToken")}
+    }
+
+    // User request
+
     function loginUser(username, password) {
         return $.ajax({
             method: "POST",
@@ -35,19 +42,29 @@ let DbRequester = (function () {
         })
     }
 
-    function getKinveyUserAuthHeaders() {
-        return {
-            'Authorization': "Kinvey " + sessionStorage.getItem('authToken'),
-        };
+    function logoutUser() {
+        return $.ajax({
+            method: "POST",
+            url: baseUrl + "user/" + appId + "/_logout",
+            headers: getUserAuthHeaders()
+        });
     }
+
+    // Ads request
 
     function createAd(title, author, body, price, phone, picture) {
         return $.ajax({
             method: "POST",
             url: baseUrl + "appdata/" + appId + "/ads",
-            headers: getKinveyUserAuthHeaders(),
+            headers: getUserAuthHeaders(),
+            contentType: "application/json",
             data: JSON.stringify({
-                title, author, body, price, phone, picture
+                title: title,
+                author: author,
+                body: body,
+                price: price,
+                phone: phone,
+                picture: picture
             })
         })
     }
@@ -68,24 +85,7 @@ let DbRequester = (function () {
         })
     }
 
-    function logoutUser() {
-        return $.ajax({
-            method: "POST",
-            url: baseUrl + "user/" + appId + "/_logout",
-            headers: getUserAuthHeaders()
-        });
-    }
-
-    function getUserAuthHeaders() {
-        return {"Authorization": "Kinvey " + sessionStorage.getItem("authToken")}
-    }
-
-    return {loginUser,
-            logoutUser,
-            registerUser,
-        createAd,
-            showAds,
-            getAd};
+    return{loginUser, registerUser, logoutUser, createAd, showAds, getAd}
 })();
 
 export default DbRequester

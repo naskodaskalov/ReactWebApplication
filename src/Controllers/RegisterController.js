@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import RegisterView from '../Views/RegisterView'
-import DbRequester from '../DbRequester';
+import DbRequester from '../Models/dbRequester';
 import notifications from '../Notifications/notifications';
 import user from '../Models/user';
 import $ from 'jquery';

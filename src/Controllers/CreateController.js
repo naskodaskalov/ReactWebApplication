@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import CreateView from '../Views/CreateView'
-import { createAd } from '../DbRequester';
 import notifications from '../Notifications/notifications';
-import $ from 'jquery';
+import DbRequester from '../Models/dbRequester';
 
 export default class CreateController extends Component {
     constructor(props){
@@ -23,7 +22,6 @@ export default class CreateController extends Component {
         return(
             <CreateView
                 title={this.state.title}
-                author={this.state.author}
                 body={this.state.body}
                 price={this.state.price}
                 phone={this.state.phone}
@@ -40,9 +38,6 @@ export default class CreateController extends Component {
         switch (event.target.name) {
             case 'title':
                 this.setState({ title: event.target.value });
-                break;
-            case 'author':
-                this.setState({ author: event.target.value });
                 break;
             case 'body':
                 this.setState({ body: event.target.value });
@@ -61,26 +56,21 @@ export default class CreateController extends Component {
     }
 
     onSubmitHandler(event) {
+        alert("submithandler");
         event.preventDefault();
-        this.setState({ submitDisabled: true });
-        this.createAd(this.state.title, this.state.author, this.state.body, this.state.price, this.state.phone, this.state.picture, this.onSubmitResponse);
-    }
 
-    onSubmitResponse(response) {
-        if (response === true) {
-            // Navigate away from create page
-            this.context.router.push('/ads');
-        } else {
-            // Something went wrong, let the user try again
-            this.setState({ submitDisabled: true });
-        }
+        this.setState({author: sessionStorage.getItem("username") , submitDisabled: true});
+        this.createAd(this.state.title, this.state.author, this.state.body, this.state.price, this.state.phone, this.state.picture);
     }
 
     createAd(title, author, body, price, phone, picture) {
+        alert("create")
         DbRequester.createAd(title, author, body, price, phone, picture)
             .then(successfulCreatedAd.bind(this));
 
         function successfulCreatedAd(adData) {
+            // Navigate away from create page
+            this.context.router.push('/ads');
             notifications.showInfo("Обявата беше успешно добавена!");
         }
     }

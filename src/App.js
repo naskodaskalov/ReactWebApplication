@@ -4,7 +4,7 @@ import NavigationBar from './Components/NavigationBar';
 import $ from 'jquery';
 
 // Import requester
-import DbRequester from './DbRequester';
+import DbRequester from './Models/dbRequester';
 import { Link } from 'react-router'
 import Header from './Components/Header';
 import observer from './Models/observer';
@@ -31,8 +31,7 @@ export default class App extends Component {
             ajaxStop: function() { $("#loadingBox").hide() }
         });
 
-        $(document).ajaxError(notifications.handleAjaxError());
-
+        $(document).ajaxError(notifications.handleAjaxError);
     }
 
     onSessionUpdate() {
@@ -108,18 +107,6 @@ export default class App extends Component {
             </div>
         );
     }
-
-    // showAdsView(){
-    //     DbRequester.showAds()
-    //         .then(loadAdsSuccess.bind(this));
-    //
-    //     function loadAdsSuccess(adsData) {
-    //         this.showView(<AdsView ads={adsData}/>);
-    //     }
-    // }
-
-
-
 
     logout(){
         DbRequester.logoutUser(sessionStorage.getItem("authToken"))
