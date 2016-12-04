@@ -37,28 +37,29 @@ export default class CreateController extends Component {
         event.preventDefault();
         switch (event.target.name) {
             case 'title':
-                this.setState({ title: event.target.value });
+                this.setState({title: event.target.value});
                 break;
             case 'body':
-                this.setState({ body: event.target.value });
+                this.setState({body: event.target.value});
                 break;
             case 'price':
-                this.setState({ price: event.target.value });
+                this.setState({price: event.target.value});
                 break;
             case 'phone':
-                this.setState({ phone: event.target.value });
+                this.setState({phone: event.target.value});
                 break;
             case 'picture':
-                this.setState({ picture: event.target.value });
+                this.setState({picture: event.target.value});
                 break;
-            default: break;
+            default:
+                break;
         }
     }
+
 
     onSubmitHandler(event) {
         alert("submithandler");
         event.preventDefault();
-
         this.setState({author: sessionStorage.getItem("username") , submitDisabled: true});
         this.createAd(this.state.title, this.state.author, this.state.body, this.state.price, this.state.phone, this.state.picture);
     }
@@ -72,6 +73,7 @@ export default class CreateController extends Component {
             // Navigate away from create page
             this.context.router.push('/ads');
             notifications.showInfo("Обявата беше успешно добавена!");
+            //this.context.router.push('/');
         }
     }
 }

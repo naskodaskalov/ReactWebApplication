@@ -6,6 +6,7 @@ import {IndexRoute, Router, Route, hashHistory} from 'react-router';
 import Login from './Controllers/LoginController';
 import Register from './Controllers/RegisterController';
 import Ads from './Controllers/AdsController'
+import EditView from './Views/EditView.js'
 import Home from './Views/HomeView';
 import Ad from './Views/CurrentAdView';
 import CreateAd from './Views/CreateView';
@@ -21,7 +22,8 @@ ReactDOM.render((
             <Route path="ads" component={Ads} >
                 <Route path=":adId" component={Ad}/>
             </Route>
-            <Route path="create-ad" component={CreateAd}/>
+            <Route path="/create-ad" component={CreateAd}/>
+            <Route path="edit/:adID" component={EditView}/>
         </Route>
     </Router>
 ), document.getElementById('root'));

@@ -69,6 +69,26 @@ let DbRequester = (function () {
         })
     }
 
+    function editAd(adID, title, author, body, price, phone, picture) {
+        return $.ajax({
+            method: "PUT",
+            url: baseUrl + "appdata/" + appId + "/ads" + adID,
+            headers: getKinveyUserAuthHeaders(),
+            data: JSON.stringify({
+                title, author, body, price, phone, picture
+            })
+        })
+    }
+
+    function loadAdDetails(adID, onAdSuccess) {
+        return $.ajax({
+            method: "GET",
+            url: baseUrl + "appdata/" + appId + "/ads/" + adID,
+            headers: getUserAuthHeaders()
+        }).then(onAdSuccess);
+
+    }
+
     function showAds() {
         return $.ajax({
             method: "GET",
@@ -84,8 +104,26 @@ let DbRequester = (function () {
             headers: getUserAuthHeaders()
         })
     }
+    function logoutUser() {
+        return $.ajax({
+            method: "POST",
+            url: baseUrl + "user/" + appId + "/_logout",
+            headers: getUserAuthHeaders()
+        });
+    }
 
-    return{loginUser, registerUser, logoutUser, createAd, showAds, getAd}
+    function getUserAuthHeaders() {
+        return {"Authorization": "Kinvey " + sessionStorage.getItem("authToken")}
+    }
+
+    return {loginUser,
+            logoutUser,
+            registerUser,
+            createAd,
+            editAd,
+            loadAdDetails,
+            showAds,
+            getAd};
 })();
 
 export default DbRequester
