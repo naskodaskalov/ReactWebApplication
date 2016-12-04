@@ -73,7 +73,7 @@ let DbRequester = (function () {
         return $.ajax({
             method: "PUT",
             url: baseUrl + "appdata/" + appId + "/ads" + adID,
-            headers: getKinveyUserAuthHeaders(),
+            headers: getUserAuthHeaders(),
             data: JSON.stringify({
                 title, author, body, price, phone, picture
             })
