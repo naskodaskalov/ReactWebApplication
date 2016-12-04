@@ -105,6 +105,21 @@ let DbRequester = (function () {
         })
     }
 
+
+    // function createComment(adId, body, author) {
+    //     return $.ajax({
+    //         method: "POST",
+    //         url: baseUrl + "appdata/" + appId + "/ads",
+    //         headers: dbAuthHeaders,
+    //         contentType: "application/json",
+    //         data: JSON.stringify({
+    //             title: title,
+    //             author: author,
+    //             body: body
+    //         })
+    //     })
+    // }
+
     return {loginUser,
             logoutUser,
             registerUser,
