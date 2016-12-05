@@ -5,6 +5,7 @@ import notifications from '../Notifications/notifications';
 import $ from 'jquery';
 
 export default class EditController extends Component {
+
     constructor(props){
         super(props);
         this.state = {
@@ -17,28 +18,23 @@ export default class EditController extends Component {
             submitDisabled: false };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
+        this.onLoadSuccess = this.onLoadSuccess.bind(this);
         this.editAd = this.editAd.bind(this);
     }
 
+   
+
     componentDidMount() {
         // Populate form
-        alert("did mount");
+        //alert("did mount");
+
         DbRequester.loadAdDetails(this.props.params.adID, this.onLoadSuccess);
     }
 
 
-    // onEditViewMount (id){
-    //     alert("on edit fired in controller");
-    //     //loadAdDetails(this.props.params.adID, this.onLoadSuccess);
-    // }
-
-    // componentDidUpdate() {
-    //     // Populate form
-    //     alert("did update");
-    //     loadAdDetails(this.props.params.adID, this.onLoadSuccess);
-    // }
-
     onLoadSuccess(response) {
+        //alert("response here");
+
         this.setState({
             title: response.title,
             body: response.body,
@@ -48,6 +44,7 @@ export default class EditController extends Component {
             picture: response.picture,
             submitDisabled: false
         });
+
     }
 
 
@@ -61,7 +58,7 @@ export default class EditController extends Component {
 
     onSubmitHandler(event) {
         event.preventDefault();
-        //this.setState({ submitDisabled: true });
+
         this.editAd(
             this.props.params.adID,
             this.state.title,
@@ -70,27 +67,18 @@ export default class EditController extends Component {
             this.state.price,
             this.state.phone,
             this.state.picture,
-            this.onSubmitResponse
         );
     }
 
-    onSubmitResponse(response) {
-        if (response === true) {
-            // Navigate away from create page
-            this.context.router.push('/ads');
-        } else {
-            // Something went wrong, let the user try again
-            this.setState({ submitDisabled: true });
-        }
-    }
 
     editAd(adID, title, author, body, price, phone, picture) {
         DbRequester.editAd(adID, title, author, body, price, phone, picture)
             .then(successfulEditdAd.bind(this));
 
         function successfulEditdAd(adData) {
+            // Navigate away from create page
+            this.context.router.push('/ads');
             notifications.showInfo("Обявата беше успешно редактирана!");
-            //this.context.router.push('/');
         }
     }
 

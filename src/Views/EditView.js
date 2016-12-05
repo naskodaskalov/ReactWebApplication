@@ -5,22 +5,13 @@ import React, { Component } from 'react';
 
 export default class EditView extends Component {
 
-    // componentDidMount() {
-    //     // Populate form
-    //     alert("edit view did mount");
-    //     console.log(this);
-    //     console.log(this.props);
-    //    
-    //     this.props.onEditViewMount(this.props.params.adID);
-    //
-    // }
-
+  
     render() {
         return(
             <div id="edit-view">
                     <form className="form-horizontal" onSubmit={this.props.onSubmitHandler}>
                         <h1>Редактирайте своята обява</h1>
-                        <p>{this.props.test}</p>
+                        
                         <div className="form-group">
                             <label className="col-md-4 control-label">Заглавие:</label>
                             <div className="col-md-4">
@@ -81,7 +72,7 @@ export default class EditView extends Component {
                             <label className="col-md-4 control-label">Телефон за връзка:</label>
                             <div className="col-md-4">
                             <input
-                                type="number"
+                                type="text"
                                 name="phone"
                                 value={this.props.phone}
                                 className="form-control col-md-4"
@@ -94,13 +85,12 @@ export default class EditView extends Component {
                             <label className="col-md-4 control-label">Снимка URL:</label>
                             <div className="col-md-4">
                             <input
-                                type="number"
+                                type="text"
                                 name="picture"
                                 value={this.props.picture}
                                 className="form-control col-md-4"
                                 onChange={this.props.onChangeHandler}
-                                //required="required"
-                                disabled="disabled"  // TODO: to be turned on...
+
                             />
                             </div>
                         </div>

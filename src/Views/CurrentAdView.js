@@ -12,10 +12,14 @@ export default class Ad extends Component {
     constructor(props) {
         super(props);
 
-        this.loadAds = this.loadAds.bind(this);
-
         this.state = {
-            ad: '',
+            title: '',
+            body: '',
+            author: '',
+            price: '',
+            phone: '',
+            picture: '',
+            submitDisabled: false,
             tableRows: '',
             comment: ''
         };
@@ -38,7 +42,13 @@ export default class Ad extends Component {
         function loadAdSuccess(ad) {
 
             let newState = {
-                ad: ad
+                title: ad.title,
+                body: ad.body,
+                author: ad.author,
+                price: ad.price,
+                phone: ad.phone,
+                picture: ad.picture,
+                submitDisabled: false
             };
 
             if (ad._acl.creator === sessionStorage.getItem('userId')) {
@@ -51,7 +61,7 @@ export default class Ad extends Component {
 
 
     render() {
-        let ad = this.state.ad;
+        let ad = this.state;
 
         return (
                 <div className="container">
@@ -104,10 +114,17 @@ export default class Ad extends Component {
                         </div>
                     </div>
 
+                    <div className="row">
+                        <div className="panel panel-default center-block">
+                            <div className="panel-heading">Телефон:</div>
+                            <div className="panel-body">
+                                <span>{ad.phone}</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <AdControls
                         adId={this.props.params.adId}
-                        onEdit={this.onEdit}
-                        onDelete={this.onDelete}
                         canEdit={this.state.canEdit}
                     />
 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
 export default class CreateView extends Component {
-    componentWillMount(){
-        if(!sessionStorage.getItem("username"))  this.context.router.push('/');
-    }
+    // componentWillMount(){
+    //     if(!sessionStorage.getItem("username"))  this.context.router.push('/');
+    // }
+    
     render() {
         return(
             <div id="create-view">
@@ -53,7 +54,7 @@ export default class CreateView extends Component {
                         <label className="col-md-4 control-label">Телефон за връзка:</label>
                         <div className="col-md-4">
                             <input
-                                type="number"
+                                type="text"
                                 name="phone"
                                 className="form-control col-md-4"
                                 onChange={this.props.onChangeHandler}
@@ -65,12 +66,10 @@ export default class CreateView extends Component {
                         <label className="col-md-4 control-label">Снимка URL:</label>
                         <div className="col-md-4">
                             <input
-                                type="number"
+                                type="text"
                                 name="picture"
                                 className="form-control col-md-4"
                                 onChange={this.props.onChangeHandler}
-                                //required="required"
-                                disabled="disabled"  // TODO: to be turned on...
                             />
                         </div>
                     </div>
