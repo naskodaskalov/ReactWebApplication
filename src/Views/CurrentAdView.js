@@ -222,16 +222,12 @@ export default class Ad extends Component {
 
                 let tr = $('<tr>').attr("id", comment._id)
                     .append($('<td>').text(comment.author))
-                    .append($('<td>').text(comment.body));
+                    .append($('<td class="body">').text(comment.body));
 
                 if (comment.author == sessionStorage.getItem("username")) {
                     $('<td>')
-                        .append($('<button class="btn btn-default">').text("Delete").click(()=> {
-                            deleteComment(comment._id);
-                        }))
-                        .append($('<button class="btn btn-default">').text("Edit").click(()=> {
-                            editComment(comment._id);
-                        })).appendTo(tr);
+                        .append($('<button class="btn btn-default">').text("Изтрий").click(()=> {deleteComment(comment._id);}))
+                        .append($('<button class="btn btn-default">').text("Редактирарй").click(()=> {editComment(comment._id);})).appendTo(tr);
                 } else {
                     $(tr).append($('<td>'));
                 }
@@ -247,8 +243,34 @@ export default class Ad extends Component {
                     .then(loadComments);
             }
 
-            function editComment(commentId) {
-                alert("edit comment");
+            function editComment(commentId){
+                let tdCommentBody = $(`#${commentId} .body`);
+                let commentBody = $(tdCommentBody).text();
+                let inputBar = $('<input>').val(commentBody);
+                let cancelBtn = $('<button class="btn btn-default">Откажи</button>').click(function () {
+                    $(tdCommentBody).empty();
+                    $(tdCommentBody).text(commentBody);
+                });
+                let buttonEdit = $('<button class="btn btn-default">Коригирай</button>').click(function () {
+                    let inputValue = $(inputBar).val();
+                    DbRequester.editComment(commentId, inputValue, sessionStorage.getItem("username"), adId)
+                        .then(successEditComment);
+                });
+                
+                $(tdCommentBody).empty();
+                $(tdCommentBody)
+                    .append(inputBar)
+                    .append(buttonEdit)
+                    .append(cancelBtn);
+
+                function successEditComment(comment) {
+                    $(tdCommentBody).empty();
+                    $(tdCommentBody).text(comment.body);
+                    console.log(comment.adId);
+                    console.log(comment.author);
+                    console.log(comment.body);
+                }
+                //DbRequester.editComment()
             }
         }
     }
