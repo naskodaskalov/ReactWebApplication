@@ -136,6 +136,20 @@ let DbRequester = (function () {
         })
     }
 
+    function editComment(commentId, body, author, adId) {
+        return $.ajax({
+            method: "PUT",
+            url: baseUrl + "appdata/" + appId + "/comments/" + commentId,
+            headers: getUserAuthHeaders(),
+            contentType: "application/json",
+            data: JSON.stringify({
+                body: body,
+                author: author,
+                adId: adId
+            })
+        })
+    }
+
     return {loginUser,
             logoutUser,
             registerUser,
@@ -146,7 +160,8 @@ let DbRequester = (function () {
             getAd,
             createComment,
             loadCommentsForAd,
-            deleteComment};
+            deleteComment,
+            editComment};
 })();
 
 export default DbRequester

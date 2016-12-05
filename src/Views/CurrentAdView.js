@@ -154,7 +154,7 @@ export default class Ad extends Component {
 
                 let tr = $('<tr>').attr("id",comment._id)
                     .append($('<td>').text(comment.author))
-                    .append($('<td>').text(comment.body));
+                    .append($('<td class="body">').text(comment.body));
 
                 if(comment.author == sessionStorage.getItem("username")){
                     $('<td>')
@@ -176,7 +176,13 @@ export default class Ad extends Component {
             }
 
             function editComment(commentId){
-                alert("edit comment");
+                let tdCommentBody = $(`#${commentId} .body`);
+                let inputBar = $('<input>');
+                $(tdCommentBody).empty();
+                $(tdCommentBody).append(inputBar);
+
+                // TODO: finish comment edit
+                //DbRequester.editComment()
             }
         }
     }
