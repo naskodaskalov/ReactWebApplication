@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import DbRequester from '../Models/dbRequester';
-import { Link } from 'react-router'
-import $ from 'jquery';
-import notifications from '../Notifications/notifications';
 import AdCard from '../Components/AdCard.js';
 import './AdsController.css';
 
