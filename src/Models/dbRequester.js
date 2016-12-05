@@ -56,7 +56,7 @@ let DbRequester = (function () {
         return $.ajax({
             method: "POST",
             url: baseUrl + "appdata/" + appId + "/ads",
-            headers: dbAuthHeaders,
+            headers: getUserAuthHeaders(),
             contentType: "application/json",
             data: JSON.stringify({
                 title: title,
@@ -70,13 +70,25 @@ let DbRequester = (function () {
     }
 
     function editAd(adID, title, author, body, price, phone, picture) {
+        console.log("id: " + adID);
+        console.log("title: " + title);
+        console.log("author: " + author);
+        console.log("body: " + body);
+        console.log("price: " + price);
+        console.log("phone: " + phone);
+        console.log("picture: " + picture);
         return $.ajax({
             method: "PUT",
             url: baseUrl + "appdata/" + appId + "/ads/" + adID,
             headers: getUserAuthHeaders(),
-            data: JSON.stringify({
-                title, author, body, price, phone, picture
-            })
+            data: {
+                title: title,
+                author: author,
+                body: body,
+                price: price,
+                phone: phone,
+                picture: picture
+            }
         })
     }
 
@@ -150,6 +162,14 @@ let DbRequester = (function () {
         })
     }
 
+    function deleteAd(adId) {
+        return $.ajax({
+            method: "DELETE",
+            url: baseUrl + "appdata/" + appId + "/books/" + adId,
+            headers: getUserAuthHeaders()
+        });
+    }
+
     return {loginUser,
             logoutUser,
             registerUser,
@@ -161,7 +181,8 @@ let DbRequester = (function () {
             createComment,
             loadCommentsForAd,
             deleteComment,
-            editComment};
+            editComment,
+            deleteAd};
 })();
 
 export default DbRequester

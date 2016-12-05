@@ -3,12 +3,23 @@ import DbRequester from '../Models/dbRequester.js';
 import notifications from '../Notifications/notifications';
 import $ from 'jquery';
 
+import AdControls from '../Controllers/AdControls.js';
+// TODO : make css for this file and update
+
+
 export default class Ad extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
-            ad: '',
+            title: '',
+            body: '',
+            author: '',
+            price: '',
+            phone: '',
+            picture: '',
+            submitDisabled: false,
             tableRows: '',
             comment: ''
         };
@@ -30,15 +41,27 @@ export default class Ad extends Component {
 
         function loadAdSuccess(ad) {
 
-            this.setState({
-                ad: ad
-            })
+            let newState = {
+                title: ad.title,
+                body: ad.body,
+                author: ad.author,
+                price: ad.price,
+                phone: ad.phone,
+                picture: ad.picture,
+                submitDisabled: false
+            };
+
+            if (ad._acl.creator === sessionStorage.getItem('userId')) {
+                newState.canEdit = true;
+            }
+
+            this.setState(newState);
         }
     }
 
 
     render() {
-        let ad = this.state.ad;
+        let ad = this.state;
 
         return (
                 <div className="container">
@@ -46,7 +69,9 @@ export default class Ad extends Component {
                         <div className="panel panel-default center-block">
                             <div className="panel-heading">Снимка:</div>
                             <div className="panel-body">
-                                <img src={ad.picture} className="img-thumbnail" width="400" height="400"/>
+
+                                <img src={ad.picture  || "http://i.imgur.com/Rtkn7ex.png"} className="img-thumbnail" width="400" height="400" alt="photo"/>
+
                             </div>
                         </div>
                     </div>
@@ -89,11 +114,19 @@ export default class Ad extends Component {
                         </div>
                     </div>
 
-
-                    <div>
-                        <button onClick={deleteAd}>Изтрий</button>
-                        <button onClick={editAd}>Редактирай</button>
+                    <div className="row">
+                        <div className="panel panel-default center-block">
+                            <div className="panel-heading">Телефон:</div>
+                            <div className="panel-body">
+                                <span>{ad.phone}</span>
+                            </div>
+                        </div>
                     </div>
+
+                    <AdControls
+                        adId={this.props.params.adId}
+                        canEdit={this.state.canEdit}
+                    />
 
                     <h2>Коментари</h2>
                     <table className="table table-striped" id="commentsTable">
@@ -117,13 +150,7 @@ export default class Ad extends Component {
                 </div>
         );
 
-        function deleteAd() {
-            // TODO: delete current ad
-        }
 
-        function editAd() {
-            // TODO: edit current ad
-        }
     }
 
     createComment(event) {
@@ -186,6 +213,7 @@ export default class Ad extends Component {
             }
         }
     }
+
 
     onChangeHandler(event) {
         this.setState({ comment: event.target.value });

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 
 export default class EditView extends Component {
+
+  
     render() {
         return(
             <div id="edit-view">
                     <form className="form-horizontal" onSubmit={this.props.onSubmitHandler}>
-                        <h1>Добавете своята обява</h1>
+                        <h1>Редактирайте своята обява</h1>
+                        
                         <div className="form-group">
                             <label className="col-md-4 control-label">Заглавие:</label>
                             <div className="col-md-4">
@@ -66,7 +69,7 @@ export default class EditView extends Component {
                             <label className="col-md-4 control-label">Телефон за връзка:</label>
                             <div className="col-md-4">
                             <input
-                                type="number"
+                                type="text"
                                 name="phone"
                                 value={this.props.phone}
                                 className="form-control col-md-4"
@@ -79,13 +82,12 @@ export default class EditView extends Component {
                             <label className="col-md-4 control-label">Снимка URL:</label>
                             <div className="col-md-4">
                             <input
-                                type="number"
+                                type="text"
                                 name="picture"
                                 value={this.props.picture}
                                 className="form-control col-md-4"
                                 onChange={this.props.onChangeHandler}
-                                //required="required"
-                                disabled="disabled"  // TODO: to be turned on...
+
                             />
                             </div>
                         </div>

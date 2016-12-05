@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 
 export default class CreateView extends Component {
-    componentWillMount(){
-        if(!sessionStorage.getItem("username"))  this.context.router.push('/');
-    }
+    // componentWillMount(){
+    //     if(!sessionStorage.getItem("username"))  this.context.router.push('/');
+    // }
+    
     render() {
         return(
             <div id="create-view">
-                    <form className="form-horizontal">
-                        <h1>Добавете своята обява</h1>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label">Заглавие:</label>
-                            <div className="col-md-4">
+                <form className="form-horizontal">
+                    <h1>Добавете своята обява</h1>
+                    <div className="form-group">
+                        <label className="col-md-4 control-label">Заглавие:</label>
+                        <div className="col-md-4">
                             <input
                                 type="text"
                                 name="title"
@@ -19,11 +20,11 @@ export default class CreateView extends Component {
                                 onChange={this.props.onChangeHandler}
                                 required="required"
                             />
-                            </div>
                         </div>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label">Описание:</label>
-                            <div className="col-md-4">
+                    </div>
+                    <div className="form-group">
+                        <label className="col-md-4 control-label">Описание:</label>
+                        <div className="col-md-4">
                             <textarea
                                 name="body"
                                 className="form-control"
@@ -31,52 +32,50 @@ export default class CreateView extends Component {
                                 required="required"
                                 rows="4">
                             </textarea>
-                            </div>
                         </div>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label">Цена:</label>
+                    </div>
+                    <div className="form-group">
+                        <label className="col-md-4 control-label">Цена:</label>
 
-                            <div className="input-group col-md-4">
-                                <div className="input-group-addon">лв.</div>
-                                <input
-                                    type="number"
-                                    name="price"
-                                    className="form-control col-md-4"
-                                    id="exampleInputAmount"
-                                    placeholder="Въведете вашата цена"
-                                    onChange={this.props.onChangeHandler}
-                                    required="required" />
-                                <div className="input-group-addon">.00</div>
-                            </div>
+                        <div className="input-group col-md-4">
+                            <div className="input-group-addon">лв.</div>
+                            <input
+                                type="number"
+                                name="price"
+                                className="form-control col-md-4"
+                                id="exampleInputAmount"
+                                placeholder="Въведете вашата цена"
+                                onChange={this.props.onChangeHandler}
+                                required="required" />
+                            <div className="input-group-addon">.00</div>
                         </div>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label">Телефон за връзка:</label>
-                            <div className="col-md-4">
-                                <input
-                                    type="number"
-                                    name="phone"
-                                    className="form-control col-md-4"
-                                    onChange={this.props.onChangeHandler}
-                                    required="required"
-                                />
-                            </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="col-md-4 control-label">Телефон за връзка:</label>
+                        <div className="col-md-4">
+                            <input
+                                type="text"
+                                name="phone"
+                                className="form-control col-md-4"
+                                onChange={this.props.onChangeHandler}
+                                required="required"
+                            />
                         </div>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label">Снимка URL:</label>
-                            <div className="col-md-4">
-                                <input
-                                    type="number"
-                                    name="picture"
-                                    className="form-control col-md-4"
-                                    onChange={this.props.onChangeHandler}
-                                    //required="required"
-                                    disabled="disabled"  // TODO: to be turned on...
-                                />
-                            </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="col-md-4 control-label">Снимка URL:</label>
+                        <div className="col-md-4">
+                            <input
+                                type="text"
+                                name="picture"
+                                className="form-control col-md-4"
+                                onChange={this.props.onChangeHandler}
+                            />
                         </div>
+                    </div>
 
-                        <input type="button"  className="btn btn-default" value="Добавете своята обява" onClick={this.props.onSubmitHandler} />
-                    </form>
+                    <input type="button"  className="btn btn-default" value="Добавете своята обява" onClick={this.props.onSubmitHandler} />
+                </form>
             </div>
         )
     }
@@ -86,5 +85,3 @@ export default class CreateView extends Component {
 CreateView.contextTypes = {
     router: React.PropTypes.object
 };
-
-
