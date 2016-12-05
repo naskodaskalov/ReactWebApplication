@@ -149,9 +149,10 @@ let DbRequester = (function () {
     }
 
     function deleteAd(adId) {
+        console.log(adId);
         return $.ajax({
             method: "DELETE",
-            url: baseUrl + "appdata/" + appId + "/books/" + adId,
+            url: baseUrl + "appdata/" + appId + "/ads/" + adId,
             headers: getUserAuthHeaders()
         });
     }

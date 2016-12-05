@@ -9,7 +9,7 @@ export default class AdControls extends Component {
 
         if (this.props.canEdit) {
             edit = <Link to={"/edit/" + this.props.adId} className="btn btn-default">Редактирай</Link>;
-            del = <Link to={"/delete/" + this.props.adId} className="btn btn-default">Изтрий</Link>;
+            del = <a href="" className="btn btn-default" onClick={this.props.deleteClicked}>Изтрий обявата</a>;
            
         }
 
