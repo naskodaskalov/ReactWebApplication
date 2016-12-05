@@ -1,31 +1,34 @@
 import React, {Component} from 'react';
 import DbRequester from '../Models/dbRequester.js';
 import notifications from '../Notifications/notifications';
+import $ from 'jquery';
 
 export default class Ad extends Component {
 
     constructor(props) {
         super(props);
-        this.loadAds = this.loadAds.bind(this);
         this.state = {
             ad: '',
             tableRows: '',
             comment: ''
         };
 
+        this.loadAd = this.loadAd.bind(this);
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.createComment = this.createComment.bind(this);
+        this.showComments = this.showComments.bind(this);
     }
 
     componentDidMount() {
-        this.loadAds();
+        this.loadAd();
+        this.showComments(this.props.params.adId);
     }
 
-    loadAds() {
-        DbRequester.loadAdDetails(this.props.params.adId,)
-            .then(loadAdsSuccess.bind(this));
+    loadAd() {
+        DbRequester.loadAdDetails(this.props.params.adId)
+            .then(loadAdSuccess.bind(this));
 
-        function loadAdsSuccess(ad) {
+        function loadAdSuccess(ad) {
 
             this.setState({
                 ad: ad
@@ -43,7 +46,7 @@ export default class Ad extends Component {
                         <div className="panel panel-default center-block">
                             <div className="panel-heading">Снимка:</div>
                             <div className="panel-body">
-                                <img src={ad.picture} className="img-thumbnail" width="400" height="400" alt="photo"/>
+                                <img src={ad.picture} className="img-thumbnail" width="400" height="400"/>
                             </div>
                         </div>
                     </div>
@@ -93,7 +96,7 @@ export default class Ad extends Component {
                     </div>
 
                     <h2>Коментари</h2>
-                    <table className="table table-striped">
+                    <table className="table table-striped" id="commentsTable">
                         <thead>
                         <tr>
                             <th>Автор</th>
@@ -101,70 +104,81 @@ export default class Ad extends Component {
                             <th>Действия</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        {this.state.tableRows}
-                        </tbody>
                     </table>
 
-                    <div className="commentField">
-                        <textarea name="comment" rows="6" cols="20" onChange={this.onChangeHandler}/><br/>
-                        <input type="button" value="Изпрати" onClick={this.createComment}/>
-                    </div>
+                    <form className="form form-control" onSubmit={this.createComment}>
+                        <label className="control-label">Напишете коментар:</label>
+                        <textarea  className="form-control"
+                                   rows="5" cols="40"
+                                   onChange={this.onChangeHandler} required="required"
+                                   id="textCreateComment"/>
+                        <input type="submit" value="Изпрати" className="btn btn-default"/>
+                    </form>
                 </div>
         );
 
         function deleteAd() {
-
+            // TODO: delete current ad
         }
 
         function editAd() {
-
+            // TODO: edit current ad
         }
     }
 
-    createComment() {
+    createComment(event) {
+        event.preventDefault();
         let commentBody = this.state.comment;
         let commentAuthor = sessionStorage.getItem("username");
         let adId = this.state.ad._id;
+        let showComments = this.showComments;
+        $('#textCreateComment').val("");
 
         DbRequester.createComment(adId, commentBody, commentAuthor)
             .then(successCommentCreate)
             .catch(notifications.handleAjaxError);
 
-        function successCommentCreate() {
-            alert("create comment");
-            this.showComments.bind(this);
+        function successCommentCreate(comment) {
+            showComments(comment.adId);
         }
     }
 
-    showComments(){
-        alert("showComments")
-        DbRequester.loadCommentsForAd()
-            .then(successLoadComments)
-            .catch(notifications.handleAjaxError);
+    showComments(adId){
+        let loadComments = this.showComments;
+        DbRequester.loadCommentsForAd(adId)
+            .then(successLoadComments);
 
         function successLoadComments(comments) {
-            alert("success showComments")
-            let tableRows =  comments.map(comment =>
-                <tr key={comment._id}>
-                    <td>{comment.author}</td>
-                    <td>{comment.body}</td>
-                    <td>
-                        <button onClick={this.deleteComment.bind(this)}>Изтрий</button>
-                        <button onClick={this.editComment.bind(this)}>Редактирай</button>
-                    </td>
-                </tr>
-            );
-            this.setState({tableRows: tableRows});
+            let tableRows = $('<tbody>');
+            for(let comment of comments){
+
+                let tr = $('<tr>').attr("id",comment._id)
+                    .append($('<td>').text(comment.author))
+                    .append($('<td>').text(comment.body));
+
+                if(comment.author == sessionStorage.getItem("username")){
+                    $('<td>')
+                        .append($('<button class="btn btn-default">').text("Delete").click(()=> {deleteComment(comment._id);}))
+                        .append($('<button class="btn btn-default">').text("Edit").click(()=> {editComment(comment._id);})).appendTo(tr);
+                } else {
+                    $(tr).append($('<td>'));
+                }
+
+                $(tableRows).append(tr);
+            }
+
+            $('#commentsTable tbody').empty();
+            $('#commentsTable').append(tableRows);
+
+            function deleteComment(commentId){
+                DbRequester.deleteComment(commentId)
+                    .then(loadComments);
+            }
+
+            function editComment(commentId){
+                alert("edit comment");
+            }
         }
-    }
-
-    deleteComment(){
-        alert("delete comment");
-    }
-
-    editComment(){
-        alert("edit comment");
     }
 
     onChangeHandler(event) {

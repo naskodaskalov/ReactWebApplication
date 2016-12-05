@@ -72,7 +72,7 @@ let DbRequester = (function () {
     function editAd(adID, title, author, body, price, phone, picture) {
         return $.ajax({
             method: "PUT",
-            url: baseUrl + "appdata/" + appId + "/ads" + adID,
+            url: baseUrl + "appdata/" + appId + "/ads/" + adID,
             headers: getUserAuthHeaders(),
             data: JSON.stringify({
                 title, author, body, price, phone, picture
@@ -128,6 +128,14 @@ let DbRequester = (function () {
         })
     }
 
+    function deleteComment(commentId) {
+        return $.ajax({
+            method: "DELETE",
+            url: baseUrl + "appdata/" + appId + "/comments/" + commentId,
+            headers: getUserAuthHeaders()
+        })
+    }
+
     return {loginUser,
             logoutUser,
             registerUser,
@@ -137,7 +145,8 @@ let DbRequester = (function () {
             showAds,
             getAd,
             createComment,
-            loadCommentsForAd};
+            loadCommentsForAd,
+            deleteComment};
 })();
 
 export default DbRequester
