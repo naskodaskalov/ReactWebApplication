@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import EditView from '../Views/EditView.js'
-import { editAd } from '../DbRequester';
+import DbRequester from '../Models/dbRequester.js';
 import notifications from '../Notifications/notifications';
 import $ from 'jquery';
 
@@ -17,29 +17,26 @@ export default class EditController extends Component {
             submitDisabled: false };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
-        this.createAd = this.editAd.bind(this);
+        this.editAd = this.editAd.bind(this);
     }
 
     componentDidMount() {
         // Populate form
-        loadAdDetails(this.props.params.adID, this.onLoadSuccess);
+        alert("did mount");
+        DbRequester.loadAdDetails(this.props.params.adID, this.onLoadSuccess);
     }
 
-    render() {
-        return(
-            <EditView
-                title={this.state.title}
-                author={this.state.author}
-                body={this.state.body}
-                price={this.state.price}
-                phone={this.state.phone}
-                picture={this.state.picture}
-                submitDisabled={this.state.submitDisabled}
-                onChangeHandler={this.onChangeHandler}
-                onSubmitHandler={this.onSubmitHandler}
-            />
-        )
-    }
+
+    // onEditViewMount (id){
+    //     alert("on edit fired in controller");
+    //     //loadAdDetails(this.props.params.adID, this.onLoadSuccess);
+    // }
+
+    // componentDidUpdate() {
+    //     // Populate form
+    //     alert("did update");
+    //     loadAdDetails(this.props.params.adID, this.onLoadSuccess);
+    // }
 
     onLoadSuccess(response) {
         this.setState({
@@ -52,6 +49,8 @@ export default class EditController extends Component {
             submitDisabled: false
         });
     }
+
+
 
     onChangeHandler(event) {
         event.preventDefault();
@@ -86,7 +85,7 @@ export default class EditController extends Component {
     }
 
     editAd(adID, title, author, body, price, phone, picture) {
-        DbRequester.createAd(adID, title, author, body, price, phone, picture)
+        DbRequester.editAd(adID, title, author, body, price, phone, picture)
             .then(successfulEditdAd.bind(this));
 
         function successfulEditdAd(adData) {
@@ -94,6 +93,23 @@ export default class EditController extends Component {
             //this.context.router.push('/');
         }
     }
+
+    render() {
+        return(
+            <EditView
+                title={this.state.title}
+                author={this.state.author}
+                body={this.state.body}
+                price={this.state.price}
+                phone={this.state.phone}
+                picture={this.state.picture}
+                submitDisabled={this.state.submitDisabled}
+                onChangeHandler={this.onChangeHandler}
+                onSubmitHandler={this.onSubmitHandler}
+            />
+        )
+    }
+
 }
 
 

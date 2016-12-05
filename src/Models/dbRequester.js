@@ -56,7 +56,7 @@ let DbRequester = (function () {
         return $.ajax({
             method: "POST",
             url: baseUrl + "appdata/" + appId + "/ads",
-            headers: dbAuthHeaders,
+            headers: getUserAuthHeaders(),
             contentType: "application/json",
             data: JSON.stringify({
                 title: title,

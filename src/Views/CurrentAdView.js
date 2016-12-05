@@ -3,6 +3,7 @@ import DbRequester from '../Models/dbRequester.js';
 import notifications from '../Notifications/notifications';
 import {Link} from 'react-router'
 import $ from 'jquery';
+import AdControls from '../Controllers/AdControls.js';
 // TODO : make css for this file and update
 
 export default class Ad extends Component {
@@ -10,6 +11,8 @@ export default class Ad extends Component {
     constructor(props) {
         super(props);
         this.loadAds = this.loadAds.bind(this);
+        //this.onDelete = this.onDelete.bind(this);
+        //this.onEdit = this.onEdit.bind(this);
         this.state = {
             ad: {}
         };
@@ -25,9 +28,15 @@ export default class Ad extends Component {
 
         function loadAdsSuccess(ad) {
 
-            this.setState({
+            let newState = {
                 ad: ad
-            })
+            };
+
+            if (ad._acl.creator === sessionStorage.getItem('userId')) {
+                newState.canEdit = true;
+            }
+
+            this.setState(newState);
         }
     }
 
@@ -43,7 +52,7 @@ export default class Ad extends Component {
                         <div className="panel panel-default center-block">
                             <div className="panel-heading">Снимка:</div>
                             <div className="panel-body">
-                                <img src={ad.picture} className="img-thumbnail" width="400" height="400" alt="photo"/>
+                                <img src={ad.picture  || "http://i.imgur.com/Rtkn7ex.png"} className="img-thumbnail" width="400" height="400" alt="photo"/>
                             </div>
                         </div>
                     </div>
@@ -86,23 +95,24 @@ export default class Ad extends Component {
                         </div>
                     </div>
 
-
-                    <div>
-                        <button onClick={deleteAd}>Изтрий</button>
-                        <button onClick={editAd}>Редактирай</button>
-                    </div>
+                    <AdControls
+                        adId={this.props.params.adId}
+                        onEdit={this.onEdit}
+                        onDelete={this.onDelete}
+                        canEdit={this.state.canEdit}
+                    />
 
                 </div>
             </div>
         )
 
-        function deleteAd() {
-
-        }
-
-        function editAd() {
-
-        }
+        // function onDelete() {
+        //     //todo
+        // }
+        //
+        // function editAd() {
+        //
+        // }
 
     }
 }

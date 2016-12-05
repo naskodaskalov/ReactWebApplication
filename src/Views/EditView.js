@@ -4,11 +4,23 @@ import React, { Component } from 'react';
 // TODO : make css for this file and update
 
 export default class EditView extends Component {
+
+    // componentDidMount() {
+    //     // Populate form
+    //     alert("edit view did mount");
+    //     console.log(this);
+    //     console.log(this.props);
+    //    
+    //     this.props.onEditViewMount(this.props.params.adID);
+    //
+    // }
+
     render() {
         return(
             <div id="edit-view">
                     <form className="form-horizontal" onSubmit={this.props.onSubmitHandler}>
-                        <h1>Добавете своята обява</h1>
+                        <h1>Редактирайте своята обява</h1>
+                        <p>{this.props.test}</p>
                         <div className="form-group">
                             <label className="col-md-4 control-label">Заглавие:</label>
                             <div className="col-md-4">

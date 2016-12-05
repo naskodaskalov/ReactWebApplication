@@ -6,10 +6,10 @@ import {IndexRoute, Router, Route, hashHistory} from 'react-router';
 import Login from './Controllers/LoginController';
 import Register from './Controllers/RegisterController';
 import Ads from './Controllers/AdsController'
-import EditView from './Views/EditView.js'
+import EditController from './Controllers/EditController.js'
 import Home from './Views/HomeView';
 import Ad from './Views/CurrentAdView';
-import CreateAd from './Views/CreateView';
+import CreateController from './Controllers/CreateController.js';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -21,8 +21,8 @@ ReactDOM.render((
             <Route path="register" component={Register}/>
             <Route path="ads" component={Ads} />
             <Route path="ads/:adId" component={Ad}/>
-            <Route path="/create-ad" component={CreateAd}/>
-            <Route path="edit/:adID" component={EditView}/>
+            <Route path="/create-ad" component={CreateController}/>
+            <Route path="/edit/:adID" component={EditController}/>
         </Route>
     </Router>
 ), document.getElementById('root'));
