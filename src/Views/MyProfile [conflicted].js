@@ -15,11 +15,18 @@ export default class Profile extends Component {
 
         this.loadUserInfo = this.loadUserInfo.bind(this);
         this.loadUsersAds = this.loadUsersAds.bind(this);
+        // this.onChangeHandler = this.onChangeHandler.bind(this);
+        // this.createComment = this.createComment.bind(this);
+        // this.showComments = this.showComments.bind(this);
+        // this.deleteClicked = this.deleteClicked.bind(this);
+        // this.closeModal = this.closeModal.bind(this);
+        // this.onDeleteAd = this.onDeleteAd.bind(this);
     }
 
     componentDidMount() {
         this.loadUserInfo();
         this.loadUsersAds();
+        //this.showComments(this.props.params.adId);
     }
 
     loadUserInfo() {
@@ -45,10 +52,10 @@ export default class Profile extends Component {
 
             for (let ad of usersAds) {
                 if (ad._acl.creator === sessionStorage.getItem('userId')) {
-                    let tr = $('<tr>')
+                    let tr = $('<tr>').attr("id", ad._id)
                         .append($('<td>').text(ad.title))
                         .append($('<td class="body">').text(ad.body));
-
+                    
                     $('#usersAds').append(tr);
                 }
             }
@@ -68,6 +75,7 @@ export default class Profile extends Component {
 
         return (
             <div className="container">
+
                 <div className="row">
                     <div className="panel panel-default center-block">
                         <div className="panel-heading">Потребителско име:</div>
@@ -76,6 +84,8 @@ export default class Profile extends Component {
                         </div>
                     </div>
                 </div>
+
+
                 <div className="row">
                     <div className="panel panel-default center-block">
                         <div className="panel-heading">E-mail:</div>
@@ -84,6 +94,7 @@ export default class Profile extends Component {
                         </div>
                     </div>
                 </div>
+
                 <div className="row">
                     <div className="panel panel-default center-block">
                         <div className="panel-heading">Обяви:</div>
@@ -91,15 +102,21 @@ export default class Profile extends Component {
                             <table className="table table-striped" id="usersAds">
                                 <thead>
                                 <tr>
-                                    <th>Заглавие</th>
-                                    <th>Описание</th>
+                                    <th>Автор</th>
+                                    <th>Коментар</th>
+                                    <th>Действия</th>
                                 </tr>
                                 </thead>
                             </table>
+
+
                         </div>
                     </div>
                 </div>
-            </div>
-        );
-    }
+                </div>
+                );
+                }
+
 }
+
+

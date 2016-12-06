@@ -11,7 +11,7 @@ export default class UserController extends Component {
 
     componentWillMount(){
         // check if user is not admin
-        if(sessionStorage.getItem("userId") != "58467dea01bde1035e82c073")  this.context.router.push('/');
+        if(sessionStorage.getItem("userId") !== "58467dea01bde1035e82c073")  this.context.router.push('/');
 
         this.loadUsers();
     }

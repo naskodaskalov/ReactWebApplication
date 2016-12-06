@@ -37,7 +37,7 @@ export default class App extends Component {
     }
 
     onSessionUpdate() {
-        if (sessionStorage.getItem("username") == "admin") {
+        if (sessionStorage.getItem("username") === "admin") {
             this.setState({
                 loggedIn: true,
                 username: sessionStorage.getItem("username"),
