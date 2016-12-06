@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import DbRequester from '../Models/dbRequester.js';
 import notifications from '../Notifications/notifications';
 import $ from 'jquery';
-import '../Components/currentAdStyles.css';
 
 export default class Profile extends Component {
 

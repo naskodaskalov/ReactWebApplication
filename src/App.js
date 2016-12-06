@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import NavigationBar from './Components/NavigationBar';
 import $ from 'jquery';
+import Footer from './Components/Footer.js';
 
 // Import requester
 import DbRequester from './Models/dbRequester';
@@ -149,6 +150,7 @@ export default class App extends Component {
                 <div id="infoBox"></div>
                 <div id="errorBox"></div>
                 {this.props.children}
+                <Footer />
             </div>
         );
     }
@@ -161,6 +163,7 @@ export default class App extends Component {
             sessionStorage.clear();
             observer.onSessionUpdate();
             notifications.showInfo("Излязохте успешно от профилът си.");
+            this.props.router.push('/')
         }
     }
 }

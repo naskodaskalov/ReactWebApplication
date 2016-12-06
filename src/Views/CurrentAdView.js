@@ -4,7 +4,6 @@ import DbRequester from '../Models/dbRequester.js';
 import notifications from '../Notifications/notifications';
 import $ from 'jquery';
 import AdControls from '../Controllers/AdControls.js';
-import '../Components/currentAdStyles.css';
 
 export default class Ad extends Component {
 
