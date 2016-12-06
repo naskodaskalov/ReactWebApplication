@@ -43,7 +43,7 @@ export default class Ad extends Component {
             .then(loadAdSuccess.bind(this));
 
         function loadAdSuccess(ad) {
-
+            //sessionStorage.setItem('currentAdId', ad._id);
             let newState = {
                 title: ad.title,
                 body: ad.body,
@@ -89,6 +89,16 @@ export default class Ad extends Component {
 
         return (
             <div className="container">
+
+                <div className="row">
+                    <div className="panel panel-default center-block">
+                        <div className="panel-heading"></div>
+                        <div className="panel-body">
+                            <h3>{ad.title}</h3>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="row">
                     <div className="panel panel-default center-block">
                         <div className="panel-heading">Снимка:</div>
@@ -109,16 +119,6 @@ export default class Ad extends Component {
                         </div>
                     </div>
                 </div>
-
-                <div className="row">
-                    <div className="panel panel-default center-block">
-                        <div className="panel-heading">Заглавие:</div>
-                        <div className="panel-body">
-                            {ad.title}
-                        </div>
-                    </div>
-                </div>
-
 
                 <div className="row">
                     <div className="panel panel-default center-block">
@@ -205,7 +205,7 @@ export default class Ad extends Component {
             .catch(notifications.handleAjaxError);
 
         function successCommentCreate(comment) {
-            console.log(comment.date)
+            console.log(comment.date);
             showComments(comment.adId);
         }
     }
@@ -220,6 +220,7 @@ export default class Ad extends Component {
             let sortedDescComments = comments.sort((a,b) => b.date - a.date);
 
             for (let comment of sortedDescComments) {
+                if (comment.adId === adId) {
 
                 let tr = $('<tr>').attr("id", comment._id)
                     .append($('<td>').text(comment.author))
@@ -234,6 +235,7 @@ export default class Ad extends Component {
                 }
 
                 $(tableRows).append(tr);
+                }
             }
 
             $('#commentsTable tbody').empty();
