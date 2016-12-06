@@ -102,6 +102,14 @@ let DbRequester = (function () {
         })
     }
 
+    function getUserInfo(id) {
+        return $.ajax({
+            method: "GET",
+            url: baseUrl + "user/" + appId + "/" + id,
+            headers: getUserAuthHeaders()
+        })
+    }
+
     function getAd(adId) {
         return $.ajax({
             method: "GET",
@@ -173,6 +181,7 @@ let DbRequester = (function () {
             loadAdDetails,
             showAds,
             getAd,
+            getUserInfo,
             createComment,
             loadCommentsForAd,
             deleteComment,

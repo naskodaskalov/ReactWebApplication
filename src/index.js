@@ -11,6 +11,7 @@ import Home from './Views/HomeView';
 import Ad from './Views/CurrentAdView';
 import CreateController from './Controllers/CreateController.js';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import MyProfile from './Views/MyProfile';
 
 
 
@@ -24,6 +25,8 @@ ReactDOM.render((
             <Route path="ads/:adId" component={Ad}/>
             <Route path="/create-ad" component={CreateController}/>
             <Route path="/edit/:adID" component={EditController}/>
+            <Route path="/profile" component={MyProfile}/>
+
         </Route>
     </Router>
 ), document.getElementById('root'));

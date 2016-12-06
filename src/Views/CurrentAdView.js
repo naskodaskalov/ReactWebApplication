@@ -4,7 +4,7 @@ import DbRequester from '../Models/dbRequester.js';
 import notifications from '../Notifications/notifications';
 import $ from 'jquery';
 import AdControls from '../Controllers/AdControls.js';
-
+import '../Components/currentAdStyles.css';
 
 export default class Ad extends Component {
 
@@ -104,8 +104,8 @@ export default class Ad extends Component {
                         <div className="panel-heading">Снимка:</div>
                         <div className="panel-body">
 
-                            <img src={ad.picture  || "http://i.imgur.com/Rtkn7ex.png"} className="img-thumbnail"
-                                 width="400" height="400" alt="photo"/>
+                            <img src={ad.picture  || "http://i.imgur.com/Rtkn7ex.png"} alt="" className="img-thumbnail"
+                                 width="400" height="400"/>
 
                         </div>
                     </div>
@@ -218,15 +218,14 @@ export default class Ad extends Component {
         function successLoadComments(comments) {
             let tableRows = $('<tbody>');
             let sortedDescComments = comments.sort((a,b) => b.date - a.date);
-
             for (let comment of sortedDescComments) {
+                
                 if (comment.adId === adId) {
-
                 let tr = $('<tr>').attr("id", comment._id)
                     .append($('<td>').text(comment.author))
                     .append($('<td class="body">').text(comment.body));
 
-                if (comment.author == sessionStorage.getItem("username")) {
+                if (comment.author === sessionStorage.getItem("username")) {
                     $('<td>')
                         .append($('<button class="btn btn-default">').text("Изтрий").click(()=> {deleteComment(comment._id);}))
                         .append($('<button class="btn btn-default">').text("Редактирарй").click(()=> {editComment(comment._id);})).appendTo(tr);
@@ -236,7 +235,9 @@ export default class Ad extends Component {
 
                 $(tableRows).append(tr);
                 }
+
             }
+
 
             $('#commentsTable tbody').empty();
             $('#commentsTable').append(tableRows);
@@ -259,7 +260,7 @@ export default class Ad extends Component {
                     DbRequester.editComment(commentId, inputValue, sessionStorage.getItem("username"), adId)
                         .then(successEditComment);
                 });
-                
+
                 $(tdCommentBody).empty();
                 $(tdCommentBody)
                     .append(inputBar)
@@ -279,6 +280,7 @@ export default class Ad extends Component {
         this.setState({comment: event.target.value});
     }
 }
+
 
 
 Ad.contextTypes = {

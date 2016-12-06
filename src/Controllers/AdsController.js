@@ -3,6 +3,7 @@ import DbRequester from '../Models/dbRequester';
 import AdCard from '../Components/AdCard.js';
 import './AdsController.css';
 import {Pagination} from 'react-bootstrap';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 export default class AdsController extends Component {
     constructor(props){
@@ -41,9 +42,9 @@ export default class AdsController extends Component {
         return(
             <div id="ads-view">
                 <h1>Обяви</h1>
-                <div className="cards">
+                <div className="row">
                     {this.state.ads.map((e, i) => {
-                        return <AdCard key={i} picture={e.picture} title={e.title} id={e._id} price={e.price}/>
+                        return <AdCard key={i} picture={e.picture} body={e.body} title={e.title} id={e._id} price={e.price}/>
                     })}
                 </div>
                 <Pagination
