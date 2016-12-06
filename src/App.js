@@ -13,7 +13,7 @@ import notifications  from './Notifications/notifications';
 export default class App extends Component {
     constructor(props) {
         super(props);
-        this.state = { loggedIn: false, username: '', userId: '' };
+        this.state = { loggedIn: false, username: '', userId: '', isAdmin: false };
         this.onSessionUpdate = this.onSessionUpdate.bind(this);
     }
 
@@ -36,16 +36,30 @@ export default class App extends Component {
     }
 
     onSessionUpdate() {
-        if (sessionStorage.getItem("username")) {
-            this.setState({ loggedIn: true, username: sessionStorage.getItem("username"), userId: sessionStorage.getItem("userId")});
+        if (sessionStorage.getItem("username") == "admin") {
+            this.setState({
+                loggedIn: true,
+                username: sessionStorage.getItem("username"),
+                userId: sessionStorage.getItem("userId"),
+                isAdmin: true});
+        } else if(sessionStorage.getItem("username")){
+            this.setState({
+                loggedIn: true,
+                username: sessionStorage.getItem("username"),
+                userId: sessionStorage.getItem("userId"),
+                isAdmin: false});
         } else {
-            this.setState({ loggedIn: false, username: '', userId:'' });
+            this.setState({
+                loggedIn: false,
+                username: '',
+                userId:'',
+                isAdmin:false });
         }
     }
 
     render() {
         let navBar = {};
-        if(this.state.loggedIn){
+        if(this.state.loggedIn && !this.state.isAdmin){
             navBar = (
                 <NavigationBar>
                     <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -60,6 +74,36 @@ export default class App extends Component {
                                     </li>
                                     <li>
                                         <Link to="/create-ad" activeClassName="active">Създай обява</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/" activeClassName="active" onClick={this.logout.bind(this)}>Излез</Link>
+                                    </li>
+                                    <li><Link to="/">Здравей, {this.state.username}</Link></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
+                </NavigationBar>
+            );
+        } else if(this.state.isAdmin){
+            navBar = (
+                <NavigationBar>
+                    <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
+                        <div className="container">
+                            <div className="collapse navbar-collapse navbar-ex1-collapse">
+                                <ul className="nav navbar-nav">
+                                    <li>
+                                        <Link to="/" activeClassName="active">Начало</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/ads" activeClassName="active">Всички обяви</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/create-ad" activeClassName="active">Създай обява</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/users" activeClassName="active">Потребители</Link>
                                     </li>
                                     <li>
                                         <Link to="/" activeClassName="active" onClick={this.logout.bind(this)}>Излез</Link>

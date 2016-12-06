@@ -205,7 +205,6 @@ export default class Ad extends Component {
             .catch(notifications.handleAjaxError);
 
         function successCommentCreate(comment) {
-            console.log(comment.date)
             showComments(comment.adId);
         }
     }

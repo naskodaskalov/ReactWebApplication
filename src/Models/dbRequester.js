@@ -16,6 +16,15 @@ let DbRequester = (function () {
 
     // User request
 
+    function loadUsers() {
+        return $.ajax({
+            method: "GET",
+            url: baseUrl + "user/" + appId,
+            headers: getUserAuthHeaders()
+        })
+    }
+
+
     function loginUser(username, password) {
         return $.ajax({
             method: "POST",
@@ -177,7 +186,8 @@ let DbRequester = (function () {
             loadCommentsForAd,
             deleteComment,
             editComment,
-            deleteAd};
+            deleteAd,
+            loadUsers};
 })();
 
 export default DbRequester
