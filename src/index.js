@@ -11,6 +11,7 @@ import Home from './Views/HomeView';
 import Ad from './Views/CurrentAdView';
 import CreateController from './Controllers/CreateController.js';
 import HomeView from './Views/HomeView.js'
+import AboutView from './Views/AboutView.js'
 import Users from './Controllers/UserController'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import MyProfile from './Views/MyProfile';
@@ -20,7 +21,7 @@ import MyProfile from './Views/MyProfile';
 ReactDOM.render((
     <Router history={hashHistory}>
         <Route path="/" component={App}>
-            <IndexRoute component={Home}/>
+            <IndexRoute component={HomeView}/>
             <Route path="login" component={Login}/>
             <Route path="register" component={Register}/>
             <Route path="ads" component={Ads} />
@@ -29,7 +30,7 @@ ReactDOM.render((
             <Route path="/edit/:adID" component={EditController}/>
             <Route path="users" component={Users}/>
             <Route path="/profile" component={MyProfile}/>
-            <Route path="/home" component={HomeView}/>
+            <Route path="/about" component={AboutView}/>
         </Route>
     </Router>
 ), document.getElementById('root'));

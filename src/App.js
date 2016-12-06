@@ -77,6 +77,9 @@ export default class App extends Component {
                                         <Link to="/create-ad" activeClassName="active">Създай обява</Link>
                                     </li>
                                     <li>
+                                        <Link to="/about" activeClassName="active">За нас</Link>
+                                    </li>
+                                    <li>
                                         <Link to="/" activeClassName="active" onClick={this.logout.bind(this)}>Излез</Link>
                                     </li>
                                     <li><Link to="/profile">Здравей, {this.state.username}</Link></li>
@@ -105,6 +108,9 @@ export default class App extends Component {
                                     </li>
                                     <li>
                                         <Link to="/users" activeClassName="active">Потребители</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/about" activeClassName="active">За нас</Link>
                                     </li>
                                     <li>
                                         <Link to="/" activeClassName="active" onClick={this.logout.bind(this)}>Излез</Link>
