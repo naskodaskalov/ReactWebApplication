@@ -120,7 +120,8 @@ let DbRequester = (function () {
             data: JSON.stringify({
                 adId: adId,
                 author: author,
-                body: body
+                body: body,
+                date: new Date().getTime()
             })
         })
     }

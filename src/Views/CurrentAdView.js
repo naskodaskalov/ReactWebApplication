@@ -164,13 +164,13 @@ export default class Ad extends Component {
                     </thead>
                 </table>
 
-                <form className="form form-control" onSubmit={this.createComment}>
+                <form onSubmit={this.createComment}>
                     <label className="control-label">Напишете коментар:</label>
                         <textarea className="form-control"
                                   rows="5" cols="40"
                                   onChange={this.onChangeHandler} required="required"
                                   id="textCreateComment"/>
-                    <input type="submit" value="Изпрати" className="btn btn-default"/>
+                    <input type="submit" value="Изпрати" className="btn btn-default"/><br/><br/>
                 </form>
 
                 <Modal show={this.state.showModal} onHide={this.closeModal}>
@@ -205,6 +205,7 @@ export default class Ad extends Component {
             .catch(notifications.handleAjaxError);
 
         function successCommentCreate(comment) {
+            console.log(comment.date)
             showComments(comment.adId);
         }
     }
@@ -216,7 +217,9 @@ export default class Ad extends Component {
 
         function successLoadComments(comments) {
             let tableRows = $('<tbody>');
-            for (let comment of comments) {
+            let sortedDescComments = comments.sort((a,b) => b.date - a.date);
+
+            for (let comment of sortedDescComments) {
 
                 let tr = $('<tr>').attr("id", comment._id)
                     .append($('<td>').text(comment.author))
@@ -264,11 +267,7 @@ export default class Ad extends Component {
                 function successEditComment(comment) {
                     $(tdCommentBody).empty();
                     $(tdCommentBody).text(comment.body);
-                    console.log(comment.adId);
-                    console.log(comment.author);
-                    console.log(comment.body);
                 }
-                //DbRequester.editComment()
             }
         }
     }
