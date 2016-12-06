@@ -25,16 +25,11 @@ export default class EditController extends Component {
    
 
     componentDidMount() {
-        // Populate form
-        //alert("did mount");
-
         DbRequester.loadAdDetails(this.props.params.adID, this.onLoadSuccess);
     }
 
 
     onLoadSuccess(response) {
-        //alert("response here");
-
         this.setState({
             title: response.title,
             body: response.body,

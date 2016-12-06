@@ -3,9 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import DbRequester from '../Models/dbRequester.js';
 import notifications from '../Notifications/notifications';
 import $ from 'jquery';
-
 import AdControls from '../Controllers/AdControls.js';
-// TODO : make css for this file and update
 
 
 export default class Ad extends Component {
@@ -198,7 +196,7 @@ export default class Ad extends Component {
         event.preventDefault();
         let commentBody = this.state.comment;
         let commentAuthor = sessionStorage.getItem("username");
-        let adId = this.state.ad._id;
+        let adId = this.props.params.adId;
         let showComments = this.showComments;
         $('#textCreateComment').val("");
 

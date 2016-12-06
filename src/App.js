@@ -19,6 +19,7 @@ export default class App extends Component {
 
     componentDidMount(){
         observer.onSessionUpdate = this.onSessionUpdate;
+        this.onSessionUpdate();
 
         // Bind the info / error boxes: hide on click
         $("#infoBox, #errorBox").click(function() {
@@ -113,14 +114,16 @@ export default class App extends Component {
             .then(logoutSuccess.bind(this));
 
         function logoutSuccess() {
-            this.setState({
-                username: '',
-                userId: '',
-                loggedIn: false
-            });
             sessionStorage.clear();
+            observer.onSessionUpdate();
             notifications.showInfo("Излязохте успешно от профилът си.");
         }
     }
 }
+
+
+
+App.contextTypes = {
+    router: React.PropTypes.object
+};
 

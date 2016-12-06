@@ -70,13 +70,6 @@ let DbRequester = (function () {
     }
 
     function editAd(adID, title, author, body, price, phone, picture) {
-        console.log("id: " + adID);
-        console.log("title: " + title);
-        console.log("author: " + author);
-        console.log("body: " + body);
-        console.log("price: " + price);
-        console.log("phone: " + phone);
-        console.log("picture: " + picture);
         return $.ajax({
             method: "PUT",
             url: baseUrl + "appdata/" + appId + "/ads/" + adID,

@@ -8,7 +8,7 @@ export default class CreateController extends Component {
         super(props);
         this.state = {
             title: '',
-            author:'',
+            author: sessionStorage.getItem("username"),
             body: '',
             price: '',
             phone: '',
@@ -60,7 +60,6 @@ export default class CreateController extends Component {
 
     onSubmitHandler(event) {
         event.preventDefault();
-        this.setState({author: sessionStorage.getItem("username") , submitDisabled: true});
         this.createAd(this.state.title, this.state.author, this.state.body, this.state.price, this.state.phone, this.state.picture);
     }
 

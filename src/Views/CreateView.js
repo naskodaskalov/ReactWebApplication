@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 export default class CreateView extends Component {
-    // componentWillMount(){
-    //     if(!sessionStorage.getItem("username"))  this.context.router.push('/');
-    // }
+    componentWillMount(){
+        if(!sessionStorage.getItem("username"))  this.context.router.push('/');
+    }
     
     render() {
         return(
