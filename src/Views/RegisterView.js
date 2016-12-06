@@ -24,6 +24,7 @@ export default class Register extends Component {
                 <div className="form-group">
                     <label className="col-md-4 control-label">E-mail:</label>
                     <div className="col-md-4">
+
                         <input
                             type="text"
                             name="email"

@@ -1,8 +1,58 @@
-.footer {
+div.left-menu {
+    color: #5e5e5e;
+    width: 20%;
+    margin-left: 50px;
+    display: inline-block;
     text-align: center;
-    background: #EEE;
-    color: #555;
-    padding: 5px;
-    font-size: 0.8em;
+    margin-bottom: 10px;
+}
 
+div.center-menu {
+    color: #5e5e5e;
+    width: 20%;
+    margin-left: 50px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    display: inline-block;
+    text-align: center;
+}
+
+div.right-menu {
+    color: #5e5e5e;
+    width: 20%;
+    margin-left: 50px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    display: inline-block;
+    text-align: center;
+}
+
+
+.footer-basic-centered{
+    background-color: #eeeeee;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    width: 100%;
+    /*text-align: center;*/
+    font: normal 18px sans-serif;
+    padding: 45px;
+    margin-top: 80px;
+}
+
+.footer-basic-centered .footer-company-name{
+    color:  #8f9296;
+    font-size: 14px;
+    margin: 20px 0 0 0;
+}
+
+#facebook {
+    margin-top: 10px;
+    margin-right: 10px;
+    width: 40px;
+    height: auto;
+}
+
+#github {
+    margin-top: 10px;
+    width: 40px;
+    height: auto;
 }
