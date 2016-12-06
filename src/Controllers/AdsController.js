@@ -43,7 +43,7 @@ export default class AdsController extends Component {
                 <h1>Обяви</h1>
                 <div className="cards">
                     {this.state.ads.map((e, i) => {
-                        return <AdCard key={i} picture={e.picture} title={e.title} id={e._id} price={e.price}/>
+                        return <AdCard key={i} picture={e.picture} title={e.title} id={e._id} price={e.price} views={e.views}/>
                     })}
                 </div>
                 <Pagination

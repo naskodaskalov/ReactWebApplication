@@ -21,7 +21,9 @@ export default class Ad extends Component {
             submitDisabled: false,
             tableRows: '',
             comment: '',
-            showModal: false
+            showModal: false,
+            views: 0,
+            urlAdID: ''
         };
 
         this.loadAd = this.loadAd.bind(this);
@@ -31,11 +33,32 @@ export default class Ad extends Component {
         this.deleteClicked = this.deleteClicked.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.onDeleteAd = this.onDeleteAd.bind(this);
+        this.increaseViews = this.increaseViews.bind(this);
     }
 
     componentDidMount() {
         this.loadAd();
         this.showComments(this.props.params.adId);
+
+    }
+
+    increaseViews(urlAdID, title, author, body, price, phone, picture, oldviews) {
+        //event.preventDefault();
+        console.log(oldviews);
+        console.log(this.props.params.adId);
+        console.log(urlAdID);
+        console.log(title);
+        let newviews = parseInt(oldviews) + 1;
+        DbRequester.editAd(urlAdID, title, author, body, price, phone, picture, newviews)
+            .then(increaseViewsAdSuccess.bind(this));
+
+        function increaseViewsAdSuccess(response) {
+            console.log(response);
+            console.log('New views: ' + response.views);
+            //this.loadAd();
+            //this.context.router.push('/ads');
+            //notifications.showInfo("Обявата беше успешно изтрита!");
+        }
     }
 
     loadAd() {
@@ -51,7 +74,9 @@ export default class Ad extends Component {
                 price: ad.price,
                 phone: ad.phone,
                 picture: ad.picture,
-                submitDisabled: false
+                submitDisabled: false,
+                views: ad.views,
+                urlAdID: this.props.params.adId
             };
 
             if (ad._acl.creator === sessionStorage.getItem('userId')) {
@@ -59,7 +84,24 @@ export default class Ad extends Component {
             }
 
             this.setState(newState);
+
+
         }
+    }
+
+    componentWillUnmount() {
+        //alert("unmount");
+        //increase view count
+        this.increaseViews(
+            this.props.params.adId,
+            this.state.title,
+            this.state.author,
+            this.state.body,
+            this.state.price,
+            this.state.phone,
+            this.state.picture,
+            this.state.views
+        );
     }
 
     closeModal() {

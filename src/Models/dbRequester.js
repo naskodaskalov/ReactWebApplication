@@ -52,7 +52,7 @@ let DbRequester = (function () {
 
     // Ads request
 
-    function createAd(title, author, body, price, phone, picture) {
+    function createAd(title, author, body, price, phone, picture, views) {
         return $.ajax({
             method: "POST",
             url: baseUrl + "appdata/" + appId + "/ads",
@@ -64,12 +64,13 @@ let DbRequester = (function () {
                 body: body,
                 price: price,
                 phone: phone,
-                picture: picture
+                picture: picture,
+                views: views
             })
         })
     }
 
-    function editAd(adID, title, author, body, price, phone, picture) {
+    function editAd(adID, title, author, body, price, phone, picture, views) {
         return $.ajax({
             method: "PUT",
             url: baseUrl + "appdata/" + appId + "/ads/" + adID,
@@ -80,10 +81,12 @@ let DbRequester = (function () {
                 body: body,
                 price: price,
                 phone: phone,
-                picture: picture
+                picture: picture,
+                views: views
             }
         })
     }
+
 
     function loadAdDetails(adID, onAdSuccess) {
         return $.ajax({
@@ -177,7 +180,8 @@ let DbRequester = (function () {
             loadCommentsForAd,
             deleteComment,
             editComment,
-            deleteAd};
+            deleteAd
+            };
 })();
 
 export default DbRequester

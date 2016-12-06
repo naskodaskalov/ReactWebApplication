@@ -13,6 +13,7 @@ export default class AdCard extends Component {
                                 <div className="caption">
                                     <h3>{this.props.title}</h3>
                                     <p>Цена: {this.props.price} лв.</p>
+                                    <span className="badge">Преглеждания: {Number(this.props.views) || 0}</span>
                                 </div>
                         </Link>
                     </div>
