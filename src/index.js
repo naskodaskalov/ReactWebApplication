@@ -12,6 +12,7 @@ import Ad from './Views/CurrentAdView';
 import CreateController from './Controllers/CreateController.js';
 import Users from './Controllers/UserController'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import MyProfile from './Views/MyProfile';
 
 
 
@@ -26,6 +27,7 @@ ReactDOM.render((
             <Route path="/create-ad" component={CreateController}/>
             <Route path="/edit/:adID" component={EditController}/>
             <Route path="users" component={Users}/>
+            <Route path="/profile" component={MyProfile}/>
         </Route>
     </Router>
 ), document.getElementById('root'));

@@ -15,7 +15,9 @@ export default class EditController extends Component {
             price: '',
             phone: '',
             picture: '',
-            submitDisabled: false };
+            submitDisabled: false,
+            views: 0
+        };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
         this.onLoadSuccess = this.onLoadSuccess.bind(this);
@@ -37,7 +39,8 @@ export default class EditController extends Component {
             price: response.price,
             phone: response.phone,
             picture: response.picture,
-            submitDisabled: false
+            submitDisabled: false,
+            views: response.views
         });
 
     }
@@ -62,12 +65,13 @@ export default class EditController extends Component {
             this.state.price,
             this.state.phone,
             this.state.picture,
+            this.state.views
         );
     }
 
 
-    editAd(adID, title, author, body, price, phone, picture) {
-        DbRequester.editAd(adID, title, author, body, price, phone, picture)
+    editAd(adID, title, author, body, price, phone, picture, views) {
+        DbRequester.editAd(adID, title, author, body, price, phone, picture, views)
             .then(successfulEditdAd.bind(this));
 
         function successfulEditdAd(adData) {

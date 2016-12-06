@@ -4,7 +4,7 @@ import DbRequester from '../Models/dbRequester.js';
 import notifications from '../Notifications/notifications';
 import $ from 'jquery';
 import AdControls from '../Controllers/AdControls.js';
-
+import '../Components/currentAdStyles.css';
 
 export default class Ad extends Component {
 
@@ -21,7 +21,9 @@ export default class Ad extends Component {
             submitDisabled: false,
             tableRows: '',
             comment: '',
-            showModal: false
+            showModal: false,
+            views: 0,
+            urlAdID: ''
         };
 
         this.loadAd = this.loadAd.bind(this);
@@ -31,11 +33,32 @@ export default class Ad extends Component {
         this.deleteClicked = this.deleteClicked.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.onDeleteAd = this.onDeleteAd.bind(this);
+        this.increaseViews = this.increaseViews.bind(this);
     }
 
     componentDidMount() {
         this.loadAd();
         this.showComments(this.props.params.adId);
+
+    }
+
+    increaseViews(urlAdID, title, author, body, price, phone, picture, oldviews) {
+        //event.preventDefault();
+        console.log(oldviews);
+        console.log(this.props.params.adId);
+        console.log(urlAdID);
+        console.log(title);
+        let newviews = parseInt(oldviews) + 1;
+        DbRequester.editAd(urlAdID, title, author, body, price, phone, picture, newviews)
+            .then(increaseViewsAdSuccess.bind(this));
+
+        function increaseViewsAdSuccess(response) {
+            console.log(response);
+            console.log('New views: ' + response.views);
+            //this.loadAd();
+            //this.context.router.push('/ads');
+            //notifications.showInfo("Обявата беше успешно изтрита!");
+        }
     }
 
     loadAd() {
@@ -43,7 +66,7 @@ export default class Ad extends Component {
             .then(loadAdSuccess.bind(this));
 
         function loadAdSuccess(ad) {
-
+            //sessionStorage.setItem('currentAdId', ad._id);
             let newState = {
                 title: ad.title,
                 body: ad.body,
@@ -51,7 +74,9 @@ export default class Ad extends Component {
                 price: ad.price,
                 phone: ad.phone,
                 picture: ad.picture,
-                submitDisabled: false
+                submitDisabled: false,
+                views: ad.views,
+                urlAdID: this.props.params.adId
             };
 
             if (ad._acl.creator === sessionStorage.getItem('userId')) {
@@ -59,7 +84,24 @@ export default class Ad extends Component {
             }
 
             this.setState(newState);
+
+
         }
+    }
+
+    componentWillUnmount() {
+        //alert("unmount");
+        //increase view count
+        this.increaseViews(
+            this.props.params.adId,
+            this.state.title,
+            this.state.author,
+            this.state.body,
+            this.state.price,
+            this.state.phone,
+            this.state.picture,
+            this.state.views
+        );
     }
 
     closeModal() {
@@ -89,13 +131,23 @@ export default class Ad extends Component {
 
         return (
             <div className="container">
+
+                <div className="row">
+                    <div className="panel panel-default center-block">
+                        <div className="panel-heading"></div>
+                        <div className="panel-body">
+                            <h3>{ad.title}</h3>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="row">
                     <div className="panel panel-default center-block">
                         <div className="panel-heading">Снимка:</div>
                         <div className="panel-body">
 
-                            <img src={ad.picture  || "http://i.imgur.com/Rtkn7ex.png"} className="img-thumbnail"
-                                 width="400" height="400" alt="photo"/>
+                            <img src={ad.picture  || "http://i.imgur.com/Rtkn7ex.png"} alt="" className="img-thumbnail"
+                                 width="400" height="400"/>
 
                         </div>
                     </div>
@@ -109,16 +161,6 @@ export default class Ad extends Component {
                         </div>
                     </div>
                 </div>
-
-                <div className="row">
-                    <div className="panel panel-default center-block">
-                        <div className="panel-heading">Заглавие:</div>
-                        <div className="panel-body">
-                            {ad.title}
-                        </div>
-                    </div>
-                </div>
-
 
                 <div className="row">
                     <div className="panel panel-default center-block">
@@ -217,14 +259,14 @@ export default class Ad extends Component {
         function successLoadComments(comments) {
             let tableRows = $('<tbody>');
             let sortedDescComments = comments.sort((a,b) => b.date - a.date);
-
             for (let comment of sortedDescComments) {
-
+                
+                if (comment.adId === adId) {
                 let tr = $('<tr>').attr("id", comment._id)
                     .append($('<td>').text(comment.author))
                     .append($('<td class="body">').text(comment.body));
 
-                if (comment.author == sessionStorage.getItem("username")) {
+                if (comment.author === sessionStorage.getItem("username")) {
                     $('<td>')
                         .append($('<button class="btn btn-default">').text("Изтрий").click(()=> {deleteComment(comment._id);}))
                         .append($('<button class="btn btn-default">').text("Редактирарй").click(()=> {editComment(comment._id);})).appendTo(tr);
@@ -233,7 +275,10 @@ export default class Ad extends Component {
                 }
 
                 $(tableRows).append(tr);
+                }
+
             }
+
 
             $('#commentsTable tbody').empty();
             $('#commentsTable').append(tableRows);
@@ -256,7 +301,7 @@ export default class Ad extends Component {
                     DbRequester.editComment(commentId, inputValue, sessionStorage.getItem("username"), adId)
                         .then(successEditComment);
                 });
-                
+
                 $(tdCommentBody).empty();
                 $(tdCommentBody)
                     .append(inputBar)
@@ -276,6 +321,7 @@ export default class Ad extends Component {
         this.setState({comment: event.target.value});
     }
 }
+
 
 
 Ad.contextTypes = {

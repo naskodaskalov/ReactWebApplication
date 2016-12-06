@@ -13,7 +13,8 @@ export default class CreateController extends Component {
             price: '',
             phone: '',
             picture: '',
-            submitDisabled: false };
+            submitDisabled: false,
+            views: 0 };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
         this.createAd = this.createAd.bind(this);
@@ -60,11 +61,11 @@ export default class CreateController extends Component {
 
     onSubmitHandler(event) {
         event.preventDefault();
-        this.createAd(this.state.title, this.state.author, this.state.body, this.state.price, this.state.phone, this.state.picture);
+        this.createAd(this.state.title, this.state.author, this.state.body, this.state.price, this.state.phone, this.state.picture, this.state.views);
     }
 
-    createAd(title, author, body, price, phone, picture) {
-               DbRequester.createAd(title, author, body, price, phone, picture)
+    createAd(title, author, body, price, phone, picture, views) {
+               DbRequester.createAd(title, author, body, price, phone, picture, views)
             .then(successfulCreatedAd.bind(this));
 
         function successfulCreatedAd(adData) {
