@@ -1,27 +1,27 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import './App.css';
 import NavigationBar from './Components/NavigationBar';
 import $ from 'jquery';
-// Import views
-import HomeView from './Views/HomeView';
-import LoginView from './Views/LoginView';
-import RegisterView from './Views/RegisterView';
-import AdsView from './Views/AdsView';
+import Footer from './Components/Footer.js';
 
 // Import requester
-import DbRequester from './DbRequester';
+import DbRequester from './Models/dbRequester';
+import { Link } from 'react-router'
+import Header from './Components/Header';
+import observer from './Models/observer';
+import notifications  from './Notifications/notifications';
 
 export default class App extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state = {
-            username: sessionStorage.getItem("username"),
-            userId: sessionStorage.getItem("userId")
-        }
+        this.state = { loggedIn: false, username: '', userId: '', isAdmin: false };
+        this.onSessionUpdate = this.onSessionUpdate.bind(this);
     }
 
     componentDidMount(){
+        observer.onSessionUpdate = this.onSessionUpdate;
+        this.onSessionUpdate();
+
         // Bind the info / error boxes: hide on click
         $("#infoBox, #errorBox").click(function() {
             $(this).fadeOut();
@@ -33,166 +33,153 @@ export default class App extends Component {
             ajaxStop: function() { $("#loadingBox").hide() }
         });
 
-        $(document).ajaxError(this.handleAjaxError.bind(this));
+        $(document).ajaxError(notifications.handleAjaxError);
     }
 
-    handleAjaxError(event, response) {
-        let errorMsg = JSON.stringify(response);
-        if (response.readyState === 0)
-            errorMsg = "Cannot connect due to network error.";
-        if (response.responseJSON &&
-            response.responseJSON.description)
-            errorMsg = response.responseJSON.description;
-        this.showError(errorMsg);
-    }
-
-    showInfo(message) {
-        $('#infoBox').text(message);
-        $('#infoBox').show();
-        setTimeout(function() {
-            $('#infoBox').fadeOut();
-        }, 3000);
-    }
-
-    showError(errorMsg) {
-        $('#errorBox').text("Error: " + errorMsg);
-        $('#errorBox').show();
+    onSessionUpdate() {
+        if (sessionStorage.getItem("username") === "admin") {
+            this.setState({
+                loggedIn: true,
+                username: sessionStorage.getItem("username"),
+                userId: sessionStorage.getItem("userId"),
+                isAdmin: true});
+        } else if(sessionStorage.getItem("username")){
+            this.setState({
+                loggedIn: true,
+                username: sessionStorage.getItem("username"),
+                userId: sessionStorage.getItem("userId"),
+                isAdmin: false});
+        } else {
+            this.setState({
+                loggedIn: false,
+                username: '',
+                userId:'',
+                isAdmin:false });
+        }
     }
 
     render() {
+        let navBar = {};
+        if(this.state.loggedIn && !this.state.isAdmin){
+            navBar = (
+                <NavigationBar>
+                    <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
+                        <div className="container">
+                            <div className="collapse navbar-collapse navbar-ex1-collapse">
+                                <ul className="nav navbar-nav">
+                                    <li>
+                                        <Link to="/" activeClassName="active">Начало</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/ads" activeClassName="active">Всички обяви</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/create-ad" activeClassName="active">Създай обява</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/about" activeClassName="active">За нас</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/" activeClassName="active" onClick={this.logout.bind(this)}>Излез</Link>
+                                    </li>
+                                    <li><Link to="/profile">Здравей, {this.state.username}</Link></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
+                </NavigationBar>
+            );
+        } else if(this.state.isAdmin){
+            navBar = (
+                <NavigationBar>
+                    <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
+                        <div className="container">
+                            <div className="collapse navbar-collapse navbar-ex1-collapse">
+                                <ul className="nav navbar-nav">
+                                    <li>
+                                        <Link to="/" activeClassName="active">Начало</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/ads" activeClassName="active">Всички обяви</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/create-ad" activeClassName="active">Създай обява</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/users" activeClassName="active">Потребители</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/about" activeClassName="active">За нас</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/" activeClassName="active" onClick={this.logout.bind(this)}>Излез</Link>
+                                    </li>
+                                    <li><Link to="/">Здравей, {this.state.username}</Link></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
+                </NavigationBar>
+            );
+        } else {
+            navBar = (
+                <NavigationBar>
+                    <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
+                        <div className="container">
+                            <div className="collapse navbar-collapse navbar-ex1-collapse">
+                                <ul className="nav navbar-nav">
+
+                                    <li>
+                                        <Link to="/" activeClassName="active" className="page-scroll">Начало</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/login" activeClassName="active" className="page-scroll">Вход</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/register" activeClassName="active" className="page-scroll">Регистрация</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/about" activeClassName="active">За нас</Link>
+                                    </li>   
+                                </ul>
+                                </div>
+                            </div>
+                        </nav>
+                </NavigationBar>
+            );
+        }
         return (
             <div className="App">
-                <header>
-                    <NavigationBar
-                        username={this.state.username}
-                        clickHome={this.showHomeView.bind(this)}
-                        clickLogin={this.showLoginView.bind(this)}
-                        clickRegister={this.showRegisterView.bind(this)}
-                        clickAds={this.showAdsView.bind(this)}
-                        clickAdCreate={this.showCreateAdView.bind(this)}
-                        clickLogout={this.logout.bind(this)}
-                    />
-                </header>
+                <Header loggedIn={this.state.loggedIn} user={this.state.username}>
+                    {navBar}
+                </Header>
                 <div id="loadingBox">Loading...</div>
                 <div id="infoBox"></div>
                 <div id="errorBox"></div>
-                <div id="main"></div>
+                {this.props.children}
+                <Footer />
             </div>
         );
     }
 
-    showView(component){
-        ReactDOM.render(
-            component,
-            document.getElementById("main"));
-    }
-
-    // Show Views:
-    showHomeView(){
-        this.showView(<HomeView/>);
-    }
-
-    showLoginView(){
-        this.showView(<LoginView submit={this.login.bind(this)}/>);
-    }
-
-    showRegisterView(){
-        this.showView(<RegisterView submit={this.register.bind(this)}/>);
-    }
-
-    showAdsView(){
-        DbRequester.showAds()
-            .then(loadAdsSuccess.bind(this));
-
-        function loadAdsSuccess(adsData) {
-            this.showView(<AdsView ads={adsData}/>);
-        }
-    }
-
-    showCreateAdView(){
-        // TODO
-    }
-
-    login(username, password) {
-        DbRequester.loginUser(username, password)
-            .then(successLogin.bind(this));
-
-        // clear input fields after login button click
-        this.cleanFieldsAfterSubmit(['usernameLogin', 'passwordLogin']);
-
-        function successLogin(userData) {
-            this.saveAuthToken(userData);
-            this.showAdsView();
-            this.showInfo("Login successful!");
-        }
-    }
-
-    register(username, email, password, confirmPassword) {
-        if(validateRequest.bind(this)()){
-            DbRequester.registerUser(username, email, password)
-                .then(successRegister.bind(this));
-
-            // clear input fields after register button click
-            this.cleanFieldsAfterSubmit(['usernameRegister', 'emailRegister', 'passwordRegister', 'confirmPassRegister']);
-
-            function successRegister(userData) {
-                this.showAdsView();
-                this.saveAuthToken(userData);
-                this.showInfo("Register successful!");
-            }
-        }
-
-        function validateRequest() {
-            if(!/^[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$/.test(email)){
-                $('#emailRegister').css("border-color","red");
-                this.showError("Invalid email");
-                return false;
-            }
-            $('#emailRegister').css("border-color","initial");
-
-            if(password !== confirmPassword){
-                $('#passwordRegister').css("border-color","red");
-                $('#confirmPassRegister').css("border-color","red");
-                this.showError("Password and confirm password are different");
-                return false;
-            }
-
-            $('#passwordRegister').css("border-color","initial");
-            $('#confirmPassRegister').css("border-color","initial");
-            return true;
-        }
-    }
-
-    cleanFieldsAfterSubmit(fields){
-        fields.map(function (field) {
-            $(`#${field}`).val("");
-        })
-    }
-
     logout(){
-        DbRequester.logoutUser(sessionStorage.getItem("authtoken"))
+        DbRequester.logoutUser(sessionStorage.getItem("authToken"))
             .then(logoutSuccess.bind(this));
 
         function logoutSuccess() {
-            this.setState({
-                username: null,
-                userId: null
-            });
-            this.showHomeView();
             sessionStorage.clear();
-            this.showInfo("Logout successful");
+            observer.onSessionUpdate();
+            notifications.showInfo("Излязохте успешно от профилът си.");
+            this.props.router.push('/')
         }
     }
-
-    saveAuthToken(userData){
-        sessionStorage.setItem("authToken", userData._kmd.authtoken);
-        sessionStorage.setItem("username", userData.username);
-        sessionStorage.setItem("userId", userData._id);
-
-        this.setState({
-            username: userData.username,
-            userId: userData._id
-        })
-    }
 }
+
+
+
+App.contextTypes = {
+    router: React.PropTypes.object
+};
 

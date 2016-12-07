@@ -1,34 +1,38 @@
 import React, { Component } from 'react';
 
-// TODO : make css for this file and update
-
 export default class LoginView extends Component {
     render() {
         return(
-            <div id="login-view">
-                <h1>Login user</h1>
-                <fieldset>
-                    <form className="form-login" onSubmit={this.submitForm.bind(this)}>
-                        <legend>Login form</legend>
-                        <label>
-                            <div>Username:</div>
-                            <input type="text" id="usernameLogin"
-                                   ref={x => this.usernameField = x} />
-                        </label>
-                        <label>
-                            <div> Password:</div>
-                            <input type="password" id="passwordLogin"
-                                   ref={x => this.usernamePass = x} />
-                        </label><br/>
-                        <input type="submit" value="Login"/>
-                    </form>
-                </fieldset>
-            </div>
-        )
-    }
-
-    submitForm(event){
-        event.preventDefault();
-        this.props.submit(this.usernameField.value, this.usernamePass.value)
+        <div id="login-view">
+            <form className="form-horizontal" onSubmit={this.props.onSubmitHandler}>
+                <h1>Влезте в системата</h1>
+                <div className="form-group">
+                    <label className="col-md-4 control-label">Потребителско име:</label>
+                    <div className="col-md-4">
+                        <input
+                            type="text"
+                            name="username"
+                            className="form-control"
+                            onChange={this.props.onChangeHandler}
+                            required="required"
+                        />
+                    </div>
+                </div>
+                <div className="form-group">
+                    <label className="col-md-4 control-label">Парола:</label>
+                    <div className="col-md-4">
+                        <input
+                            type="password"
+                            name="password"
+                            className="form-control"
+                            onChange={this.props.onChangeHandler}
+                            required="required"
+                        />
+                    </div>
+                </div>
+                <input type="submit" className="btn btn-default" value="Влезте" />
+            </form>
+        </div>
+        );
     }
 }

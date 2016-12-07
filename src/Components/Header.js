@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-export default class NavigationBar extends Component {
+export default class Header extends Component {
     render() {
         return (
             <div>
+                <br /><br />
                 {this.props.children}
             </div>
         );
