@@ -7,7 +7,7 @@ import Login from './Controllers/LoginController';
 import Register from './Controllers/RegisterController';
 import Ads from './Controllers/AdsController'
 import EditController from './Controllers/EditController.js'
-import Home from './Views/HomeView';
+//import Home from './Views/HomeView';
 import Ad from './Views/CurrentAdView';
 import CreateController from './Controllers/CreateController.js';
 import HomeView from './Views/HomeView.js'
@@ -19,6 +19,7 @@ import MyProfile from './Views/MyProfile';
 
 
 ReactDOM.render((
+    
     <Router history={hashHistory}>
         <Route path="/" component={App}>
             <IndexRoute component={HomeView}/>
@@ -33,5 +34,6 @@ ReactDOM.render((
             <Route path="/about" component={AboutView}/>
         </Route>
     </Router>
+
 ), document.getElementById('root'));
 

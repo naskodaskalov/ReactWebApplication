@@ -32,7 +32,7 @@ export default class Ad extends Component {
         this.deleteClicked = this.deleteClicked.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.onDeleteAd = this.onDeleteAd.bind(this);
-        this.increaseViews = this.increaseViews.bind(this);
+        //this.increaseViews = this.increaseViews.bind(this);
     }
 
     componentDidMount() {
@@ -41,24 +41,24 @@ export default class Ad extends Component {
 
     }
 
-    increaseViews(urlAdID, title, author, body, price, phone, picture, oldviews) {
-        //event.preventDefault();
-        console.log(oldviews);
-        console.log(this.props.params.adId);
-        console.log(urlAdID);
-        console.log(title);
-        let newviews = parseInt(oldviews) + 1;
-        DbRequester.editAd(urlAdID, title, author, body, price, phone, picture, newviews)
-            .then(increaseViewsAdSuccess.bind(this));
-
-        function increaseViewsAdSuccess(response) {
-            console.log(response);
-            console.log('New views: ' + response.views);
-            //this.loadAd();
-            //this.context.router.push('/ads');
-            //notifications.showInfo("Обявата беше успешно изтрита!");
-        }
-    }
+    // increaseViews(urlAdID, title, author, body, price, phone, picture, oldviews) {
+    //     //event.preventDefault();
+    //     //console.log(oldviews);
+    //     //console.log(this.props.params.adId);
+    //     //console.log(urlAdID);
+    //     //console.log(title);
+    //     let newviews = parseInt(oldviews) + 1;
+    //     DbRequester.editAd(urlAdID, title, author, body, price, phone, picture, newviews)
+    //         .then(increaseViewsAdSuccess.bind(this));
+    //
+    //     function increaseViewsAdSuccess(response) {
+    //         //console.log(response);
+    //         //console.log('New views: ' + response.views);
+    //         //this.loadAd();
+    //         //this.context.router.push('/ads');
+    //         //notifications.showInfo("Обявата беше успешно изтрита!");
+    //     }
+    // }
 
     loadAd() {
         DbRequester.loadAdDetails(this.props.params.adId)
@@ -91,16 +91,16 @@ export default class Ad extends Component {
     componentWillUnmount() {
         //alert("unmount");
         //increase view count
-        this.increaseViews(
-            this.props.params.adId,
-            this.state.title,
-            this.state.author,
-            this.state.body,
-            this.state.price,
-            this.state.phone,
-            this.state.picture,
-            this.state.views
-        );
+        // this.increaseViews(
+        //     this.props.params.adId,
+        //     this.state.title,
+        //     this.state.author,
+        //     this.state.body,
+        //     this.state.price,
+        //     this.state.phone,
+        //     this.state.picture,
+        //     this.state.views
+        // );
     }
 
     closeModal() {

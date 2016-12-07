@@ -140,6 +140,9 @@ export default class App extends Component {
                                     <li>
                                         <Link to="/register" activeClassName="active" className="page-scroll">Регистрация</Link>
                                     </li>
+                                    <li>
+                                        <Link to="/about" activeClassName="active">За нас</Link>
+                                    </li>   
                                 </ul>
                                 </div>
                             </div>

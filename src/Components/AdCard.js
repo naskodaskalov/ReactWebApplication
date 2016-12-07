@@ -14,7 +14,6 @@ export default class AdCard extends Component {
                                     <h4>{this.props.title}</h4>
                                     <h4 className="pull-right">{this.props.price} лв.</h4>
                                     <p>{this.props.body}</p>
-                                    <span className="badge">Преглеждания: {Number(this.props.views) || 0}</span>
                                 </div>
                         </Link>
                     </div>
